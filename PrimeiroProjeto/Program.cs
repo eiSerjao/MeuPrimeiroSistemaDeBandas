@@ -1,4 +1,6 @@
-﻿string mensagemDeBoasVindas = "Boas vindas ao Screen Sound";
+﻿using PrimeiroProjeto;
+
+string mensagemDeBoasVindas = "Boas vindas ao Screen Sound";
 //List<string> listaDasBandas = new List<string> { "U2", "Oficina G3", "Rosa de Saron"};
 
 Dictionary<string, List<int>> bandasRegistradas = new Dictionary<string, List<int>>();
@@ -250,7 +252,7 @@ void AvaliarUmaBanda()
     string nomeDaBanda = Console.ReadLine()!;
     if (bandasRegistradas.ContainsKey(nomeDaBanda))
     {
-      Console.Write($"Qual o nome que a banda {nomeDaBanda} merece: ");
+        Console.Write($"Qual o nome que a banda {nomeDaBanda} merece: ");
         int nota = int.Parse(Console.ReadLine()!);
         bandasRegistradas[nomeDaBanda].Add(nota);
         Console.WriteLine($"\n A nota {nota} foi registrada com sucesso para a banda {nomeDaBanda}");
@@ -269,4 +271,27 @@ void AvaliarUmaBanda()
 }
 
 // Chama o Método Principal
-ExibirOpcoesDoMenu();
+//ExibirOpcoesDoMenu();
+
+
+Musica musica1 = new Musica();
+
+musica1.NomeDaMusica = "Roxanne";
+musica1.Artista = "The Police";
+musica1.Duracao = 200;
+musica1.Disponivel = true;
+
+musica1.ExibirFichaTecnica();
+
+Console.WriteLine("-----------------------------------");
+
+Musica musica2 = new Musica();
+musica2.NomeDaMusica = "Incondicional";
+musica2.Artista = "Oficina G3";
+musica2.Duracao = 418;
+musica2.Disponivel = false;
+
+musica2.ExibirFichaTecnica();
+
+
+
