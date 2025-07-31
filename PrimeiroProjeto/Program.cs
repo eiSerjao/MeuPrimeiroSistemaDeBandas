@@ -1,11 +1,8 @@
 ﻿using PrimeiroProjeto;
 
 string mensagemDeBoasVindas = "Boas vindas ao Screen Sound";
-//List<string> listaDasBandas = new List<string> { "U2", "Oficina G3", "Rosa de Saron"};
 
-Dictionary<string, List<int>> bandasRegistradas = new Dictionary<string, List<int>>();
-bandasRegistradas.Add("Link Park", new List<int> { 10, 8, 7, 6});
-bandasRegistradas.Add("Oficina G3", new List<int>());
+BandasRegistradas sistemaBandas = new BandasRegistradas();
 
 // Metodo Principal para Exibir as Opções do Menu
 void ExibirOpcoesDoMenu()
@@ -53,7 +50,9 @@ void RegistrarBanda()
     ExibirTituloDaOpção("Registros das bandas");
     Console.Write("Digite o nome da banda que deseja registrar: ");
     string nomeDaBanda = Console.ReadLine()!;
-    bandasRegistradas.Add(nomeDaBanda, new   List<int>());
+    Banda novaBanda = new Banda(nomeDaBanda);
+    sistemaBandas.RegistrarBanda(novaBanda);
+    
     Console.WriteLine($"A banda {nomeDaBanda} foi registrada com sucesso!");
     Thread.Sleep( 2000 );
     ExibirOpcoesDoMenu();
@@ -64,16 +63,7 @@ void MostrarBandasRegistradas()
 {
     Console.Clear();
     ExibirTituloDaOpção("Exibindo todas as bandas registradas");
-    //for (int i = 0; i < listaDasBandas.Count; i++)
-    //{
-    //    Console.WriteLine($"Banda: {listaDasBandas[i]}");
-    //} 
-
-    foreach (string banda in bandasRegistradas.Keys)
-    {
-        Console.WriteLine($"Banda: {banda}");
-    }
-
+    sistemaBandas.ExibirBandasRegistradas();
     Console.Write("\nDigite uma tecla para voltar ao menu principal: ");
     Console.ReadKey();
     Console.Clear();
@@ -96,140 +86,19 @@ void ExibirLogo()
 // Metodo para Exibir a Média da Banda 
 void ExibirMediaDaBanda()
 {
-    bool repetir = true;
+    Console.Clear();
+    ExibirTituloDaOpção("Exibindo a média de uma banda");
+    Console.Write("Digite o nome da banda que deseja ver a média: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    Banda novaBanda = new Banda(nomeDaBanda);
 
-    // Loop para repetir o processo de exibir a média
-    while (repetir)
-    {
-        Console.Clear();
-        ExibirTituloDaOpção("Exibindo a média de uma banda");
+    sistemaBandas.ExibirMédiaNotas(novaBanda);
 
-        // Variáveis para armazenar o nome da banda e verificar se a banda é válida
-        string nomeDaBanda = "";
-        bool bandaValida = false;
-        bool repostaEhValida = false;
-
-
-        // Loop para verificar se a banda existe e possui notas
-        while (!bandaValida)
-        {
-
-            Console.Clear();
-            ExibirTituloDaOpção("Exibindo a média de uma banda");
-            Console.Write("Digite o nome da banda que deseja ver a média: ");
-            nomeDaBanda = Console.ReadLine()!;
-
-            // Verifica se a banda existe no dicionário
-            if (bandasRegistradas.ContainsKey(nomeDaBanda))
-            {
-                // Verifica se a banda possui notas registradas
-                if (bandasRegistradas[nomeDaBanda].Count > 0)
-                {
-                    bandaValida = true;
-                    break;
-                }
-                else if (bandasRegistradas[nomeDaBanda].Count == 0) // Se a banda não possui notas registradas 
-                {
-                    // Exibe mensagem de erro e pergunta se deseja tentar novamente
-                    while (!repostaEhValida)
-                    {
-                        Console.Clear();
-                        Console.WriteLine($"\nA banda {nomeDaBanda} não possui notas registradas! ");
-                        Console.WriteLine("Deseja tentar novamente? (s/n)");
-                        string resposta = Console.ReadLine()!;
-                        if (resposta.ToLower() == "n")
-                        {
-                            ExibirOpcoesDoMenu();
-                            repostaEhValida = true;
-                            return;
-                        }
-                        else if (resposta.ToLower() == "s")
-                        {
-                            repostaEhValida = false;
-                            break;
-                        }
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Resposta inválida. Tente novamente.");
-                            Thread.Sleep(2000);
-                        }
-                    }
-                }
-            }
-            else // Se a banda não existe no dicionário
-            {
-                // Exibe mensagem de erro e pergunta se deseja tentar novamente
-                {
-                    while (!repostaEhValida)
-                    {
-                        Console.Clear();
-                        Console.WriteLine($"\nA banda {nomeDaBanda} não foi encontrada! ");
-                        Console.WriteLine("Deseja tentar novamente? (s/n)");
-                        string resposta = Console.ReadLine()!;
-
-                        if (resposta.ToLower() == "n")
-                        {
-                            ExibirOpcoesDoMenu();
-                            repostaEhValida = true;
-                            return;
-                        }
-                        else if (resposta.ToLower() == "s")
-                        {
-                            repostaEhValida = false;
-                            ExibirMediaDaBanda();
-                            break;
-                        }
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Resposta inválida. Tente novamente.");
-                            Thread.Sleep(2000);
-                        }
-                    }
-                }
-
-
-
-            }
-        }
-
-        // Se a banda existe e possui notas registradas
-        // Calcula a média das notas
-        List<int> notas = bandasRegistradas[nomeDaBanda];
-        double media = notas.Average();
-        Console.WriteLine($"A média da banda {nomeDaBanda} é {media}");
-        Thread.Sleep(4000);
-        
-        repostaEhValida = false;
-
-        // Pergunta se o usuário deseja ver outra banda
-        while (!repostaEhValida)
-        {
-            Console.Clear();
-            Console.WriteLine("Gostaria de ver outra banda? (s/n)");
-            string respostaFinal = Console.ReadLine()!;
-
-            if (respostaFinal.ToLower() == "n")
-            {
-                repetir = false;
-                repostaEhValida = true;
-                ExibirOpcoesDoMenu();
-            }
-            else if (respostaFinal.ToLower() == "s")
-            {
-                repostaEhValida = true;
-
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("Resposta inválida. Tente novamente.");
-                Thread.Sleep(2000);
-            }
-        }
-    }
+    Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
+    Console.ReadKey();
+    ExibirOpcoesDoMenu();
 }
+
 // Metodo para Exibir o Titulo da Opção
 void ExibirTituloDaOpção(string titulol)
 {
@@ -243,55 +112,59 @@ void ExibirTituloDaOpção(string titulol)
 // Metodo para Avaliar uma Banda
 void AvaliarUmaBanda()
 {
-    //digite qual banda deseja avaliar
-    //se a banda existe no dicionario >> atribuir uma nota
-    //senão, volta ao menu principal
+
     Console.Clear();
     ExibirTituloDaOpção("Avaliar Banda");
     Console.Write("Digite o nome da banda que deseja avaliar: ");
     string nomeDaBanda = Console.ReadLine()!;
-    if (bandasRegistradas.ContainsKey(nomeDaBanda))
-    {
-        Console.Write($"Qual o nome que a banda {nomeDaBanda} merece: ");
-        int nota = int.Parse(Console.ReadLine()!);
-        bandasRegistradas[nomeDaBanda].Add(nota);
-        Console.WriteLine($"\n A nota {nota} foi registrada com sucesso para a banda {nomeDaBanda}");
-        Thread.Sleep(2000);
-        Console.Clear();
-        ExibirOpcoesDoMenu();
-    }
-    else
-    {
-        Console.WriteLine($"\nA banda {nomeDaBanda} não foi encontrada! ");
-        Console.WriteLine("Digite uma tecla para voltar ao menu prinicipal");
-        Console.ReadKey();
-        Console.Clear();
-        ExibirOpcoesDoMenu();
-    }
-}
+    Banda novaBanda = new Banda(nomeDaBanda);
+
+    sistemaBandas.AdicionarNota(novaBanda);
+
+    Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
+    Console.ReadKey();
+    
+    ExibirOpcoesDoMenu();
+}   
 
 // Chama o Método Principal
-//ExibirOpcoesDoMenu();
-
-
-Musica musica1 = new Musica();
-
-musica1.NomeDaMusica = "Roxanne";
-musica1.Artista = "The Police";
-musica1.Duracao = 200;
-musica1.Disponivel = true;
-
-musica1.ExibirFichaTecnica();
-
-Console.WriteLine("-----------------------------------");
-
-Musica musica2 = new Musica();
-musica2.NomeDaMusica = "Incondicional";
-musica2.Artista = "Oficina G3";
-musica2.Duracao = 418;
-musica2.Disponivel = false;
-
-musica2.ExibirFichaTecnica();
+ExibirOpcoesDoMenu();
 
 
 
+// // Criando um Obejto da Classe Banda
+// Banda oficinaG3 = new Banda("Oficina G3");
+
+// // Criando um novo objeto da classe Album
+// Album albumDoOficinaG3 = new Album("Depois da Guerra");
+
+// Genero Rock = new Genero("Rock");
+
+// // Criando Objetos da Classe Musica
+// Musica musica1 = new Musica(oficinaG3, "D.A.G", 62.4, true, Rock);
+
+// Musica musica2 = new Musica(oficinaG3, "Meus Própios Meis", 241.2, false, Rock);
+
+
+// // Adicionando os Objetos da Classe Musica a uma lista de um Objeto Especifico da Classe Album
+//     // Utilizando um Método AdicionarMuscia para adicionar a Lista do Objeto Especifico da Classe Albim
+//         albumDoOficinaG3.AdicionarMusica(musica1);
+//         albumDoOficinaG3.AdicionarMusica(musica2);
+
+
+
+// musica1.ExibirFichaTecnica();
+// musica2.ExibirFichaTecnica();
+
+//     // Exibindo as Musica Listada de um Objeto da Classe Album
+//         albumDoOficinaG3.ExibirMusicasDoAlbum();
+
+
+
+//     // Adicionando um Objeto da Classe Album em uma lista chamada Albums da Classe Banda
+//         oficinaG3.AdicionarAlbum(albumDoOficinaG3);
+
+//     // Exibindo a Lista Albums de um Obejto Da Classe Banda
+//         oficinaG3.ExibirDiscofrafia();
+
+// fim of Program.cs
