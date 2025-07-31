@@ -6,8 +6,8 @@ public class BandasRegistradas
 {
     private Dictionary<string, (Banda banda, List<int> notas)> _bandas = new Dictionary<string, (Banda banda, List<int>)>();
 
-    
-        
+
+
 
     // Metodo para Registrar uma Banda
     public void RegistrarBanda(Banda banda)
@@ -49,7 +49,7 @@ public class BandasRegistradas
                     // se a nota for valida, adiciona a nota na lista de notas da banda
                     registro.notas.Add(nota);
                     Console.WriteLine($"Nota {nota} registrada para a banda {banda.NomeDaBanda}");
-                    
+
                     // Atualiza a variável notaValida para sair do loop
                     notaValida = true;
                 }
@@ -65,7 +65,7 @@ public class BandasRegistradas
 
 
     }
-    
+
     public void ExibirMédiaNotas(Banda banda)
     {
         if (VerificaBanda(banda))
@@ -95,6 +95,7 @@ public class BandasRegistradas
         }
     }
 
+    // fim da classe BandasRegistradas
     
     
 }

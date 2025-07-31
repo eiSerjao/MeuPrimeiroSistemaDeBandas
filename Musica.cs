@@ -3,12 +3,12 @@
 public class Musica
 {
     // Propriedades da classe Musica
-    public string NomeDaMusica { get;}
+    public string NomeDaMusica { get; }
     public Banda Artista { get; }
-    public double Duracao { get; set;} 
-    public bool Disponivel {get; set;}
+    public double Duracao { get; set; }
+    public bool Disponivel { get; set; }
     public Genero TipoDeGenero { get; set; }
-    public string DescricaoResumida => 
+    public string DescricaoResumida =>
         $"A música '{NomeDaMusica}' pertence ao artista {Artista.NomeDaBanda}";
 
     // Cunstrutor
@@ -20,7 +20,7 @@ public class Musica
         Disponivel = disponivel;
         TipoDeGenero = genero;
     }
-    
+
     // Metodo para exibir a ficha técnica da música
     public void ExibirFichaTecnica()
     {
@@ -38,4 +38,6 @@ public class Musica
             Console.WriteLine("Adquira o Plano Plus+");
         }
     }
+    
+    // fim da classe Musica
 }
