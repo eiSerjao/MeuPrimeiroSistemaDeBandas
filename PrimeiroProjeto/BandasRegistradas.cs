@@ -4,11 +4,12 @@ namespace PrimeiroProjeto;
 
 public class BandasRegistradas
 {
+    // Dicionario para Armazenar as Bandas e suas notas
     private Dictionary<string, (Banda banda, List<int> notas)> _bandas = new Dictionary<string, (Banda banda, List<int>)>();
-
-
-
-
+    
+    // Dicionrario para Armazenar Generos Musicais no Sistema
+    private Dictionary<string, Genero> _generos = new Dictionary<string, Genero>();
+    
     // Metodo para Registrar uma Banda
     public void RegistrarBanda(Banda banda)
     {
@@ -16,6 +17,30 @@ public class BandasRegistradas
         {
             _bandas.Add(banda.NomeDaBanda, (banda, new List<int>()));
         }
+    }
+    
+    //Metodo para Registra um Genero
+    public bool RegistrarGenero(Genero genero, string chave)
+    {
+        if (!VerificarGenero(chave))
+        {
+            _generos.Add(chave, genero);
+            Console.WriteLine($"O Genero: {chave} foi adicionado ao sistema!");
+            Thread.Sleep(2000);
+            return true;
+        }
+        else
+        {
+            Console.WriteLine($"Já existe {chave} em nosso sistema!");
+            Thread.Sleep(2000);
+            return false;
+        }
+    }
+    
+    // Verificar se o Genero estar Registrado no Sistema.
+    public bool VerificarGenero(string chave)
+    {
+        return _generos.ContainsKey(chave);
     }
 
     // Metodo para Verificar se a Banda Existe no Dicionario
@@ -66,6 +91,7 @@ public class BandasRegistradas
 
     }
 
+    // Métodos para Fazer a Média de Notas em Uma Banda
     public void ExibirMédiaNotas(Banda banda)
     {
         if (VerificaBanda(banda))

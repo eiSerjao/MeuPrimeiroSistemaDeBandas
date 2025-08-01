@@ -13,6 +13,7 @@ void ExibirOpcoesDoMenu()
     Console.WriteLine("Digite 2 para mostrar as bandas");
     Console.WriteLine("Digite 3 para avaliar uma banda");
     Console.WriteLine("Digite 4 para exibir a média de uma banda");
+    Console.WriteLine("Digite 5 para Registrar um Novo Genero Musical");
     Console.WriteLine("Digire -1 para sair");
 
     Console.Write("\nDigite a sua opção: ");
@@ -33,6 +34,9 @@ void ExibirOpcoesDoMenu()
         case 4:
             ExibirMediaDaBanda();
             break;
+        case 5:
+            RegistrarGenreroMusical();
+            break;
         case -1:
             Console.WriteLine("Você digitou a opção " + opcaoEscolhida);
             Console.WriteLine("Tchau tchau :)");
@@ -41,6 +45,46 @@ void ExibirOpcoesDoMenu()
             Console.WriteLine("Opção inválida");
             break;
     }
+}
+
+// Registra GêneroMusical
+void RegistrarGenreroMusical()
+{
+    Console.Clear();
+    Boolean SistemaEncerrado = false;
+
+    while (!SistemaEncerrado)
+    {
+        Console.Clear();
+        ExibirTituloDaOpção("Registrar um Novo Genero Musical");
+        Console.Write("Qual gênero musical você quer adicionar: ");
+        String nomeGenero = Console.ReadLine()!;
+    
+        Genero novoGeneroMusical = new Genero(nomeGenero);
+        SistemaEncerrado = sistemaBandas.RegistrarGenero(novoGeneroMusical, nomeGenero);
+
+        if (!SistemaEncerrado)
+        {
+            Console.Clear();
+            Console.WriteLine($"Gostaria de Tentar Adicionar um Novo Genero? S/N");
+            String opcaoEscolhida = Console.ReadLine()!.Trim().ToUpper();
+
+            if (opcaoEscolhida == "S")
+            {
+                SistemaEncerrado = false;
+            }
+            else  if (opcaoEscolhida == "N")
+            {
+                SistemaEncerrado = true;
+            }
+        }
+    }
+    
+    Console.Write("\nDigite uma tecla para voltar ao menu principal: ");
+    Console.ReadKey();
+    Console.Clear();
+        
+    ExibirOpcoesDoMenu();
 }
 
 // Metodo para Registrar uma Banda
