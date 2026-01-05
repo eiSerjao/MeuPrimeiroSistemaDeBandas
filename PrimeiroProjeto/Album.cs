@@ -2,20 +2,24 @@ using PrimeiroProjeto;
 
 public class Album
 {
+    // Lista de Músicas do Álbum
     private List<Musica> musicas = new List<Musica>();
     public double DuracaoTotal => musicas.Sum(m => m.Duracao);
     public String NomeDoAlbum { get; set; }
 
+    // Construtor do Album
     public Album(string nome)
     {
         NomeDoAlbum = nome;
     }
 
+    // Metodo para Adicionar Musica ao Album
     public void AdicionarMusica(Musica musica)
     {
         musicas.Add(musica);
     }
 
+    // Metodo para Exibir as Musicas do Album
     public void ExibirMusicasDoAlbum()
     {
         Console.WriteLine($"Musicas do Álbum: {NomeDoAlbum}\n");

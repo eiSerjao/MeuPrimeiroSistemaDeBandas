@@ -120,7 +120,16 @@ public class BandasRegistradas
             Console.WriteLine(banda);
         }
     }
-
+    // Metodo para Retornar uma Banda pelo Nome
+    public Banda RetornarBanda(string nomeDaBanda)
+    {
+        if (_bandas.ContainsKey(nomeDaBanda))
+        {
+            // O dicionário retorna a tupla (Banda, List<int>), então pegamos só a parte da Banda
+            return _bandas[nomeDaBanda].banda;
+        }
+        return null!; // Retorna null se a banda não for encontrada
+    }
     // fim da classe BandasRegistradas
     
     

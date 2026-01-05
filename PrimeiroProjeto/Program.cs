@@ -14,6 +14,7 @@ void ExibirOpcoesDoMenu()
     Console.WriteLine("Digite 3 para avaliar uma banda");
     Console.WriteLine("Digite 4 para exibir a média de uma banda");
     Console.WriteLine("Digite 5 para Registrar um Novo Genero Musical");
+    Console.WriteLine("Digite 6 para Registrar um Novo Álbum");
     Console.WriteLine("Digire -1 para sair");
 
     Console.Write("\nDigite a sua opção: ");
@@ -36,6 +37,9 @@ void ExibirOpcoesDoMenu()
             break;
         case 5:
             RegistrarGenreroMusical();
+            break;
+        case 6:
+            RegistrarAlbum();
             break;
         case -1:
             Console.WriteLine("Você digitou a opção " + opcaoEscolhida);
@@ -171,6 +175,45 @@ void AvaliarUmaBanda()
     ExibirOpcoesDoMenu();
 }   
 
+// Metodo para Registrar um Novo Álbum
+void RegistrarAlbum()
+
+{
+    Console.Clear();
+    ExibirTituloDaOpção("Registrar um Novo Álbum");
+    Console.Write("Digite o nome da banda do álbum: ");
+    string nomeDaBanda = Console.ReadLine()!;
+
+    // Usamos o novo método para recuperar a banda real de dentro do confre (dicionário)
+    Banda bandaRecuperada = sistemaBandas.RetornarBanda(nomeDaBanda);
+
+    if (bandaRecuperada != null) // Se a banda foi encontrada
+    {
+        Console.Write("Digite o nome do álbum: ");
+        string nomeDoAlbum = Console.ReadLine()!;
+
+        // Criamos o novo álbum
+        Album novoAlbum = new Album(nomeDoAlbum);
+
+        // Adicionamos o álbum à banda que foi recuperada
+        bandaRecuperada.AdicionarAlbum(novoAlbum);
+        Console.WriteLine($"Álbum '{nomeDoAlbum}' registrado com sucesso para a banda '{nomeDaBanda}'!");
+        Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey();
+        Console.Clear();
+        ExibirOpcoesDoMenu();
+    }
+    else
+    {
+        Console.WriteLine($"Banda '{nomeDaBanda}' não encontrada. Por favor, registre a banda antes de adicionar um álbum.");
+        Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey();
+        Console.Clear();
+        ExibirOpcoesDoMenu();
+    }
+}
+
+
 // Chama o Método Principal
 ExibirOpcoesDoMenu();
 
@@ -178,7 +221,6 @@ ExibirOpcoesDoMenu();
 
 // // Criando um Obejto da Classe Banda
 // Banda oficinaG3 = new Banda("Oficina G3");
-
 // // Criando um novo objeto da classe Album
 // Album albumDoOficinaG3 = new Album("Depois da Guerra");
 
