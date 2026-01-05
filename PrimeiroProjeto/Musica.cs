@@ -5,14 +5,14 @@ public class Musica
     // Propriedades da classe Musica
     public string NomeDaMusica { get; }
     public Banda Artista { get; }
-    public double Duracao { get; set; }
+    public int Duracao { get; set; }
     public bool Disponivel { get; set; }
     public Genero TipoDeGenero { get; set; }
     public string DescricaoResumida =>
         $"A música '{NomeDaMusica}' pertence ao artista {Artista.NomeDaBanda}";
 
     // Cunstrutor
-    public Musica(Banda banda, string nomeDaMusica, double duracao, bool disponivel, Genero genero)
+    public Musica(Banda banda, string nomeDaMusica, int duracao, bool disponivel, Genero genero)
     {
         Artista = banda;
         NomeDaMusica = nomeDaMusica;

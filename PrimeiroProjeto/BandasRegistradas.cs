@@ -130,7 +130,15 @@ public class BandasRegistradas
         }
         return null!; // Retorna null se a banda não for encontrada
     }
-    // fim da classe BandasRegistradas
     
+    // Método para Retornar um Genero pelo Nome
+    public Genero RetornarGenero(string nomeDoGenero)
+    {
+        if (_generos.ContainsKey(nomeDoGenero))
+        {
+            return _generos[nomeDoGenero];
+        }
+        return null!;
+    }
     
 }

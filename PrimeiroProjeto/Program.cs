@@ -15,6 +15,7 @@ void ExibirOpcoesDoMenu()
     Console.WriteLine("Digite 4 para exibir a média de uma banda");
     Console.WriteLine("Digite 5 para Registrar um Novo Genero Musical");
     Console.WriteLine("Digite 6 para Registrar um Novo Álbum");
+    Console.WriteLine("Digite 7 para Registrar uma Nova Música");
     Console.WriteLine("Digire -1 para sair");
 
     Console.Write("\nDigite a sua opção: ");
@@ -40,6 +41,9 @@ void ExibirOpcoesDoMenu()
             break;
         case 6:
             RegistrarAlbum();
+            break;
+        case 7:
+            RegistrarMusica();
             break;
         case -1:
             Console.WriteLine("Você digitou a opção " + opcaoEscolhida);
@@ -190,7 +194,7 @@ void RegistrarAlbum()
     if (bandaRecuperada != null) // Se a banda foi encontrada
     {
         Console.Write("Digite o nome do álbum: ");
-        string nomeDoAlbum = Console.ReadLine()!;
+        string nomeDoAlbum = Console.ReadLine()!.Trim();
 
         // Criamos o novo álbum
         Album novoAlbum = new Album(nomeDoAlbum);
@@ -213,6 +217,129 @@ void RegistrarAlbum()
     }
 }
 
+// Metodo para Registrar uma Nova Música
+void RegistrarMusica()
+{
+    Console.Clear();
+    ExibirTituloDaOpção("Registrar uma Nova Música");
+
+    // 1. Buscar e Validar a Banda
+    Console.Write("Digite o nome da banda aonde será registrada a música: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    Banda bandaRecuperada = sistemaBandas.RetornarBanda(nomeDaBanda);
+
+    // Logica para verificar se a Banda Existe
+
+    if (bandaRecuperada == null) // Se a banda não foi encontrada
+    {
+        Console.WriteLine($"Banda '{nomeDaBanda}' não encontrada. Por favor, registre a banda antes de adicionar uma música.");
+        Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey();
+        Console.Clear();
+        ExibirOpcoesDoMenu();
+        return; // Sai do método se a banda não existir
+    }
+    
+    // 2. Buscar e Validar o Genero Musical
+
+    Console.Write("Digite o nome do gênero musical da música: ");
+    string nomeDoGenero = Console.ReadLine()!;
+    Genero generoRecuperado = sistemaBandas.RetornarGenero(nomeDoGenero);
+
+    // Logica para verificar se o Genero Musical Existe
+
+    if (generoRecuperado == null) 
+    {
+        // Se o gênero não foi encontrado, o usuario pode optar por registrar um novo gênero ou sair
+        // Aqui vou assumir que o usuário deve registrar o gênero primeiro
+        Console.WriteLine($"Gênero '{nomeDoGenero}' não encontrado. Criando um novo....");
+        generoRecuperado = new Genero(nomeDoGenero);
+        sistemaBandas.RegistrarGenero(generoRecuperado, nomeDoGenero);
+        Thread.Sleep(2000);
+    }
+
+    // 3. Coletar os Dados da Música
+
+    Console.Write("Digite o nome da música: ");
+    string nomeDaMusica = Console.ReadLine()!;
+
+    Console.Write("Digite a duração da música (ex: 2:30 ou 2):  ");
+    string duracaoString = Console.ReadLine()!;
+    
+    // Chamando o método auxiliar para converter a duração em segundos
+    int duracaoEmSegundos = ConverterTempoParaSegundos(duracaoString);
+
+    Console.Write("A música está disponível no plano? (S/N): ");
+    bool disponivel = Console.ReadLine()!.Trim().ToUpper() == "S";
+
+    // 4. Criar a Música
+    Musica novaMusica = new Musica(bandaRecuperada, nomeDaMusica, duracaoEmSegundos, disponivel, generoRecuperado);
+
+    Console.WriteLine($"Música '{nomeDaMusica}' registrada com sucesso para a banda '{nomeDaBanda}'!");
+    Thread.Sleep(2000);
+
+    // 5. Perguntar sobre o Álbum (opcional)
+    Console.Clear();
+    Console.Write("Deseja adicionar essa música a um álbum existente? (S/N): ");
+    if (Console.ReadLine()!.Trim().ToUpper() == "S")
+    {
+        Console.Write("Digite o nome do álbum: ");
+        string nomeDoAlbum = Console.ReadLine()!;
+
+        Album albumRecuperado = bandaRecuperada.RetornarAlbumPeloNome(nomeDoAlbum);
+
+        // Verifica se o álbum existe
+        if (albumRecuperado != null)
+        {
+            albumRecuperado.AdicionarMusica(novaMusica);
+            Console.WriteLine($"Música '{nomeDaMusica}' adicionada ao álbum '{nomeDoAlbum}' com sucesso!");
+        }
+        else
+        {
+            // Se caiu aqui, o álbum não foi encontrado ou foi digitado errado
+            Console.WriteLine($"Álbum '{nomeDoAlbum}' não encontrado na banda '{nomeDaBanda}'. Música não adicionada a nenhum álbum.");
+            Console.WriteLine("Você pode adicionar a música a um álbum posteriormente.");
+        }
+    }
+    else
+    {
+        Console.WriteLine("Ok! A musica foi registrada sem álbum");
+    }
+    
+
+    Thread.Sleep(2000);
+    ExibirOpcoesDoMenu();
+
+    // fim do método RegistrarMusica
+}
+
+// Metodo Auxiliar para converter a duração em segundos inteiros
+int ConverterTempoParaSegundos(string duracaoString)
+{
+    {
+        // Caso 1: Usuario digita no formato mm:ss
+        if (duracaoString.Contains(":"))
+        {
+            string[] partes = duracaoString.Split(':'); // Quebrando a string em minutos e segundos
+
+            // Tenta converter as duas partes para inteiros
+            if (int.TryParse(partes[0], out int minutos) && int.TryParse(partes[1], out int segundos))
+            {
+                return minutos * 60 + segundos; // Retorna o total em segundos
+            }
+        }
+
+        // Caso 2: Se não existir ":", tenta converter direto 
+        else if (int.TryParse(duracaoString, out int minutosApenas))
+        {
+            return minutosApenas * 60; // Retorna o total em segundos
+        }
+
+        // se ele digitou "banana" ou algo inválido
+        return 0;
+    }
+}
+    
 
 // Chama o Método Principal
 ExibirOpcoesDoMenu();

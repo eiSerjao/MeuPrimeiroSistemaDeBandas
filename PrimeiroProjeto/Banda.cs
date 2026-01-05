@@ -17,7 +17,7 @@ public class Banda
     {
         albums.Add(album);
     }
-
+    // Metodo para Exibir a Discografia da Banda
     public void ExibirDiscofrafia()
     {
         Console.WriteLine($"Discografia da Banda: {NomeDaBanda}\n");
@@ -25,6 +25,19 @@ public class Banda
         {
             Console.WriteLine($"Álbum: {album.NomeDoAlbum} ({album.DuracaoTotal} segundos!)");
         }
+    }
+
+    // Metodo para retornar album pelo nome
+    public Album RetornarAlbumPeloNome(string nomeDoAlbum)
+    {
+        foreach (var album in albums)
+        {
+            if (album.NomeDoAlbum.ToUpper() == nomeDoAlbum.ToUpper())
+            {
+                return album;
+            }
+        }
+        return null;
     }
 
 }

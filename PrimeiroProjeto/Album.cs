@@ -29,7 +29,7 @@ public class Album
         }
         Console.WriteLine($"Duração Total do Álbum: {DuracaoTotal}\n");
     }
-    
-    // fim da classe Album
+
+        // fim da classe Album
 
 }
