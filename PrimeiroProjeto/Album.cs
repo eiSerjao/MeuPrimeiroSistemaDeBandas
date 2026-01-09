@@ -4,8 +4,11 @@ public class Album
 {
     // Lista de Músicas do Álbum
     private List<Musica> musicas = new List<Musica>();
-    public double DuracaoTotal => musicas.Sum(m => m.Duracao);
     public String NomeDoAlbum { get; set; }
+    
+    // Soma a duração (assumindo que Musica.Duracao. Duracao é um int representando segundos)
+    public int DuracaoTotal => musicas.Sum(m => m.Duracao);
+    
 
     // Construtor do Album
     public Album(string nome)
@@ -19,15 +22,24 @@ public class Album
         musicas.Add(musica);
     }
 
-    // Metodo para Exibir as Musicas do Album
+    // --- NOVO: Método para Exibir Músicas do Álbum com Detalhes do Tempo ---
     public void ExibirMusicasDoAlbum()
     {
-        Console.WriteLine($"Musicas do Álbum: {NomeDoAlbum}\n");
+        Console.WriteLine($"Listando músicas do álbum: {NomeDoAlbum}");
+        Console.WriteLine("-------------------------------------");
+        
+        //Formatação: {musica.Duracao /60} pegas os minutos
+        // {musica.Duracao % 60:D2} pega os resto (segundos) e formata com 2 digitos 
         foreach (var musica in musicas)
         {
-            Console.WriteLine($"Música: {musica.NomeDaMusica}");
+            Console.WriteLine($"Musica: {musica.NomeDaMusica} - Duração: {musica.Duracao / 60}:{musica.Duracao % 60:D2}");
         }
-        Console.WriteLine($"Duração Total do Álbum: {DuracaoTotal}\n");
+        
+        Console.WriteLine("-------------------------------------");
+        // Aqui usamos a mesma logica para formatar a duração total
+        Console.WriteLine($"Duração Total do Álbum: {DuracaoTotal / 60}:{DuracaoTotal % 60:D2} \n");
+        Console.WriteLine("\n"); 
+        Console.WriteLine("--- Fim da Lista de Músicas do Álbum ---");   
     }
 
         // fim da classe Album

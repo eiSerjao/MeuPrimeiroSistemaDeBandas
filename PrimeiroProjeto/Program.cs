@@ -1,99 +1,167 @@
 ﻿using PrimeiroProjeto;
 
+// --- CONFIGURAÇÃO INICIAL E VARIÁVEIS GLOBAIS ---
 string mensagemDeBoasVindas = "Boas vindas ao Screen Sound";
-
 BandasRegistradas sistemaBandas = new BandasRegistradas();
+
+// Carrega os dados de teste (Mock) antes de iniciar
+CarregarDadosInicias();
+
+//Inicia o progama
+ExibirOpcoesDoMenu();
+
+// -----------------------------------------------------------------
+
+#region MENUS DE NAVEGAÇÃO
+// Responsáveis por mostrar as opções e rotear (Switch Case)
 
 // Metodo Principal para Exibir as Opções do Menu
 void ExibirOpcoesDoMenu()
 {
     Console.Clear();
     ExibirLogo();
-    Console.WriteLine("\nDigite 1 para registrar uma banda");
-    Console.WriteLine("Digite 2 para mostrar as bandas");
-    Console.WriteLine("Digite 3 para avaliar uma banda");
-    Console.WriteLine("Digite 4 para exibir a média de uma banda");
-    Console.WriteLine("Digite 5 para Registrar um Novo Genero Musical");
-    Console.WriteLine("Digite 6 para Registrar um Novo Álbum");
-    Console.WriteLine("Digite 7 para Registrar uma Nova Música");
-    Console.WriteLine("Digire -1 para sair");
+    Console.WriteLine("\n--- MENU PRINCIPAL ---");
+    Console.WriteLine("Digite 1 para Acessar a Central de Cadastros");
+    Console.WriteLine("Digite 2 para Acessar a Central de Consultas");
+    Console.WriteLine("Digite 0 para Sair do Sistema");
 
-    Console.Write("\nDigite a sua opção: ");
-    string opcaoEscolhida = Console.ReadLine()!;
-    int opcaoEscolhidaNumerica = int.Parse(opcaoEscolhida);
+    Console.Write("\nEscolha uma opção: ");
+    string opcao = Console.ReadLine()!;
 
-    switch (opcaoEscolhidaNumerica)
+    if (int.TryParse(opcao, out int opcaoEscolhida))
     {
-        case 1:
-            RegistrarBanda();
-            break;
-        case 2:
-            MostrarBandasRegistradas();
-            break;
-        case 3:
-            AvaliarUmaBanda();
-            break;
-        case 4:
-            ExibirMediaDaBanda();
-            break;
-        case 5:
-            RegistrarGenreroMusical();
-            break;
-        case 6:
-            RegistrarAlbum();
-            break;
-        case 7:
-            RegistrarMusica();
-            break;
-        case -1:
-            Console.WriteLine("Você digitou a opção " + opcaoEscolhida);
-            Console.WriteLine("Tchau tchau :)");
-            break;
-        default:
-            Console.WriteLine("Opção inválida");
-            break;
-    }
-}
-
-// Registra GêneroMusical
-void RegistrarGenreroMusical()
-{
-    Console.Clear();
-    Boolean SistemaEncerrado = false;
-
-    while (!SistemaEncerrado)
-    {
-        Console.Clear();
-        ExibirTituloDaOpção("Registrar um Novo Genero Musical");
-        Console.Write("Qual gênero musical você quer adicionar: ");
-        String nomeGenero = Console.ReadLine()!;
-    
-        Genero novoGeneroMusical = new Genero(nomeGenero);
-        SistemaEncerrado = sistemaBandas.RegistrarGenero(novoGeneroMusical, nomeGenero);
-
-        if (!SistemaEncerrado)
+        switch (opcaoEscolhida)
         {
-            Console.Clear();
-            Console.WriteLine($"Gostaria de Tentar Adicionar um Novo Genero? S/N");
-            String opcaoEscolhida = Console.ReadLine()!.Trim().ToUpper();
-
-            if (opcaoEscolhida == "S")
-            {
-                SistemaEncerrado = false;
-            }
-            else  if (opcaoEscolhida == "N")
-            {
-                SistemaEncerrado = true;
-            }
+            case 1:
+                Console.Clear();
+                ExibirOpcoesDeCadastro();
+                break;
+            case 2:
+                Console.Clear();
+                ExibirOpcoesDeConsulta();
+                break;
+            case 0:
+                Console.Clear();
+                Console.WriteLine("Encerrando o sistema... Até mais!");
+                Thread.Sleep(2000);
+                break;
+            default:
+                Console.WriteLine("Opção inválida. Tente novamente.");
+                Thread.Sleep(2000);
+                ExibirOpcoesDoMenu();
+                break;
         }
     }
-    
-    Console.Write("\nDigite uma tecla para voltar ao menu principal: ");
-    Console.ReadKey();
-    Console.Clear();
-        
-    ExibirOpcoesDoMenu();
+    else
+    {
+        Console.WriteLine("Opção inválida. Tente novamente.");
+        Thread.Sleep(2000);
+        ExibirOpcoesDoMenu();
+    }
 }
+
+// Metodo para Exibir as Opções de Cadastro
+void ExibirOpcoesDeCadastro()
+{
+    Console.Clear();
+    ExibirTituloDaOpção("Central de Cadastros");
+    Console.WriteLine("Digite 1 para Registrar uma Banda");
+    Console.WriteLine("Digite 2 para Registrar um Novo Álbum");
+    Console.WriteLine("Digite 3 para Registrar uma Nova Música");
+    Console.WriteLine("Digite 4 para Registrar um Novo Gênero Musical");
+    Console.WriteLine("Digite 5 para Avaliar uma Banda");
+    Console.WriteLine("Digite 0 para Voltar ao Menu Principal");
+
+    Console.Write("\nEscolha uma opção: ");
+    string opcao = Console.ReadLine()!;
+
+    if (int.TryParse(opcao, out int opcaoEscolhida))
+    {
+        switch (opcaoEscolhida)
+        {
+            case 1:
+                RegistrarBanda();
+                break;
+            case 2:
+                RegistrarAlbum();
+                break;
+            case 3:
+                RegistrarMusica();
+                break;
+            case 4:
+                RegistrarGenreroMusical();
+                break;
+            case 5:
+                AvaliarUmaBanda();
+                break;
+            case 0:
+                ExibirOpcoesDoMenu();
+                break;
+            default:
+                Console.WriteLine("Opção inválida. Tente novamente.");
+                Thread.Sleep(2000);
+                ExibirOpcoesDeCadastro();
+                break;
+        }
+    }
+    else
+    {
+        Console.WriteLine("Opção inválida. Tente novamente.");
+        Thread.Sleep(2000);
+        ExibirOpcoesDeCadastro();
+    }
+}
+
+// Metodo para Exibir as Opções de Consulta
+void ExibirOpcoesDeConsulta()
+{
+    Console.Clear();
+    ExibirTituloDaOpção("Central de Consultas");
+    Console.WriteLine("Digite 1 para Mostrar as Bandas Registradas");
+    Console.WriteLine("Digite 2 para Exibir a Média de uma Banda");
+    Console.WriteLine("Digite 3 para Ver Detalhes De Uma Banda (Discografia e Músicas)");
+    Console.WriteLine("Digite 0 para Voltar ao Menu Principal");
+
+    Console.Write("\nEscolha uma opção: ");
+    string opcao = Console.ReadLine()!;
+
+    if (int.TryParse(opcao, out int opcaoEscolhida))
+    {
+        switch (opcaoEscolhida)
+        {
+            case 1:
+                MostrarBandasRegistradas();
+                break;
+            case 2:
+                ExibirMediaDaBanda();
+                break;
+            case 3:
+                ExibirDetalhesDaBanda();
+                break;
+            case 0:
+                ExibirOpcoesDoMenu();
+                break;
+            default:
+                Console.WriteLine("Opção inválida. Tente novamente.");
+                Thread.Sleep(2000);
+                ExibirOpcoesDeConsulta();
+                break;
+        }
+    }
+    else
+    {
+        Console.WriteLine("Opção inválida. Tente novamente.");
+        Thread.Sleep(2000);
+        ExibirOpcoesDeConsulta();
+    }
+}
+
+#endregion
+
+// -----------------------------------------------------------------
+
+#region MÉTODOS DE CADASTRO
+// Responsáveis por criar novos dados
 
 // Metodo para Registrar uma Banda
 void RegistrarBanda()
@@ -107,77 +175,8 @@ void RegistrarBanda()
     
     Console.WriteLine($"A banda {nomeDaBanda} foi registrada com sucesso!");
     Thread.Sleep( 2000 );
-    ExibirOpcoesDoMenu();
+    ExibirOpcoesDeCadastro();
 }
-
-// Metodo para Mostrar as Bandas Registradas
-void MostrarBandasRegistradas()
-{
-    Console.Clear();
-    ExibirTituloDaOpção("Exibindo todas as bandas registradas");
-    sistemaBandas.ExibirBandasRegistradas();
-    Console.Write("\nDigite uma tecla para voltar ao menu principal: ");
-    Console.ReadKey();
-    Console.Clear();
-    ExibirOpcoesDoMenu();
-}
-
-// Metodo para Exibir o Logo
-void ExibirLogo()
-{
-    Console.WriteLine(@"
-░██████╗░█████╗░██████╗░███████╗███████╗███╗░░██╗  ░██████╗░█████╗░██╗░░░██╗███╗░░██╗██████╗░
-██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝████╗░██║  ██╔════╝██╔══██╗██║░░░██║████╗░██║██╔══██╗
-╚█████╗░██║░░╚═╝██████╔╝█████╗░░█████╗░░██╔██╗██║  ╚█████╗░██║░░██║██║░░░██║██╔██╗██║██║░░██║
-░╚═══██╗██║░░██╗██╔══██╗██╔══╝░░██╔══╝░░██║╚████║  ░╚═══██╗██║░░██║██║░░░██║██║╚████║██║░░██║
-██████╔╝╚█████╔╝██║░░██║███████╗███████╗██║░╚███║  ██████╔╝╚█████╔╝╚██████╔╝██║░╚███║██████╔╝
-╚═════╝░░╚════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚══╝  ╚═════╝░░╚════╝░░╚═════╝░╚═╝░░╚══╝╚═════╝░");
-    Console.WriteLine(mensagemDeBoasVindas); 
-}
-
-// Metodo para Exibir a Média da Banda 
-void ExibirMediaDaBanda()
-{
-    Console.Clear();
-    ExibirTituloDaOpção("Exibindo a média de uma banda");
-    Console.Write("Digite o nome da banda que deseja ver a média: ");
-    string nomeDaBanda = Console.ReadLine()!;
-    Banda novaBanda = new Banda(nomeDaBanda);
-
-    sistemaBandas.ExibirMédiaNotas(novaBanda);
-
-    Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
-    Console.ReadKey();
-    ExibirOpcoesDoMenu();
-}
-
-// Metodo para Exibir o Titulo da Opção
-void ExibirTituloDaOpção(string titulol)
-{
-    int quantidadeDeLetras = titulol.Length;
-    string asteristico = string.Empty.PadLeft(quantidadeDeLetras, '*');
-    Console.WriteLine(asteristico);
-    Console.WriteLine(titulol);
-    Console.WriteLine(asteristico + "\n");
-}
-
-// Metodo para Avaliar uma Banda
-void AvaliarUmaBanda()
-{
-
-    Console.Clear();
-    ExibirTituloDaOpção("Avaliar Banda");
-    Console.Write("Digite o nome da banda que deseja avaliar: ");
-    string nomeDaBanda = Console.ReadLine()!;
-    Banda novaBanda = new Banda(nomeDaBanda);
-
-    sistemaBandas.AdicionarNota(novaBanda);
-
-    Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
-    Console.ReadKey();
-    
-    ExibirOpcoesDoMenu();
-}   
 
 // Metodo para Registrar um Novo Álbum
 void RegistrarAlbum()
@@ -205,7 +204,7 @@ void RegistrarAlbum()
         Console.WriteLine("Digite uma tecla para voltar ao menu principal");
         Console.ReadKey();
         Console.Clear();
-        ExibirOpcoesDoMenu();
+        ExibirOpcoesDeCadastro();
     }
     else
     {
@@ -213,7 +212,7 @@ void RegistrarAlbum()
         Console.WriteLine("Digite uma tecla para voltar ao menu principal");
         Console.ReadKey();
         Console.Clear();
-        ExibirOpcoesDoMenu();
+        ExibirOpcoesDeCadastro();
     }
 }
 
@@ -236,7 +235,7 @@ void RegistrarMusica()
         Console.WriteLine("Digite uma tecla para voltar ao menu principal");
         Console.ReadKey();
         Console.Clear();
-        ExibirOpcoesDoMenu();
+        ExibirOpcoesDeCadastro();
         return; // Sai do método se a banda não existir
     }
     
@@ -308,9 +307,232 @@ void RegistrarMusica()
     
 
     Thread.Sleep(2000);
-    ExibirOpcoesDoMenu();
+    ExibirOpcoesDeCadastro();
 
     // fim do método RegistrarMusica
+}
+
+// Registra GêneroMusical
+void RegistrarGenreroMusical()
+{
+    Console.Clear();
+    Boolean SistemaEncerrado = false;
+
+    while (!SistemaEncerrado)
+    {
+        Console.Clear();
+        ExibirTituloDaOpção("Registrar um Novo Genero Musical");
+        Console.Write("Qual gênero musical você quer adicionar: ");
+        String nomeGenero = Console.ReadLine()!;
+    
+        Genero novoGeneroMusical = new Genero(nomeGenero);
+        SistemaEncerrado = sistemaBandas.RegistrarGenero(novoGeneroMusical, nomeGenero);
+
+        if (!SistemaEncerrado)
+        {
+            Console.Clear();
+            Console.WriteLine($"Gostaria de Tentar Adicionar um Novo Genero? S/N");
+            String opcaoEscolhida = Console.ReadLine()!.Trim().ToUpper();
+
+            if (opcaoEscolhida == "S")
+            {
+                SistemaEncerrado = false;
+            }
+            else  if (opcaoEscolhida == "N")
+            {
+                SistemaEncerrado = true;
+            }
+        }
+    }
+    
+    Console.Write("\nDigite uma tecla para voltar ao menu principal: ");
+    Console.ReadKey();
+    Console.Clear();
+        
+    ExibirOpcoesDeCadastro();
+}
+
+// Metodo para Avaliar uma Banda
+void AvaliarUmaBanda()
+{
+
+    Console.Clear();
+    ExibirTituloDaOpção("Avaliar Banda");
+    Console.Write("Digite o nome da banda que deseja avaliar: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    Banda novaBanda = new Banda(nomeDaBanda);
+
+    sistemaBandas.AdicionarNota(novaBanda);
+
+    Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
+    Console.ReadKey();
+    
+    ExibirOpcoesDeCadastro();
+}   
+
+#endregion
+
+// -----------------------------------------------------------------
+
+#region MÉTODOS DE CONSULTA
+// Responsáveis por ler e exibir dados já cadastrados
+
+// Metodo para Mostrar as Bandas Registradas
+void MostrarBandasRegistradas()
+{
+    Console.Clear();
+    ExibirTituloDaOpção("Exibindo todas as bandas registradas");
+    sistemaBandas.ExibirBandasRegistradas();
+    Console.Write("\nDigite uma tecla para voltar ao menu principal: ");
+    Console.ReadKey();
+    Console.Clear();
+    ExibirOpcoesDeConsulta();
+}
+
+// Metodo para Exibir a Média da Banda 
+void ExibirMediaDaBanda()
+{
+    Console.Clear();
+    ExibirTituloDaOpção("Exibindo a média de uma banda");
+    Console.Write("Digite o nome da banda que deseja ver a média: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    Banda novaBanda = new Banda(nomeDaBanda);
+
+    sistemaBandas.ExibirMédiaNotas(novaBanda);
+
+    Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
+    Console.ReadKey();
+    ExibirOpcoesDeConsulta();
+}
+
+// Metodo para Exibir os Detalhes da Banda
+void ExibirDetalhesDaBanda()
+{
+    Console.Clear();
+    ExibirTituloDaOpção("Exibindo os detalhes de uma banda");
+    Console.Write("Digite o nome da banda que deseja ver os detalhes: ");
+    string nomeDaBanda = Console.ReadLine()!;
+
+    //1. Buscar a Banda
+    Banda bandaRecuperada = sistemaBandas.RetornarBanda(nomeDaBanda);
+
+    // --- GUARDAR 1: Se a banda NÃO existe, avisa e sai.
+    if (bandaRecuperada == null)
+    {
+        Console.WriteLine($"\nBanda '{nomeDaBanda}' não encontrada.");
+        Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
+        Console.ReadKey();
+        ExibirOpcoesDeConsulta();
+        return; // Sai do método
+    }
+
+    Console.Clear();
+
+    //2. Exibir a Discografia da Banda
+    bandaRecuperada.ExibirDiscofrafia();
+
+    Console.WriteLine("\nDeseja ver as músicas de algum álbum específico? (S/N): ");
+    string resposta = Console.ReadLine()!.Trim().ToUpper();
+
+    // --- GUADAR 2: Se a reposta for NÃO, sai.
+    if (resposta != "S")
+    {
+        ExibirOpcoesDeConsulta();
+        return; // Sai do método
+    }
+
+    //3. Perguntar qual álbum
+    Console.Write("Digite o nome do álbum que deseja ver as músicas: ");
+    string nomeDoAlbum = Console.ReadLine()!;
+    Album albumRecuperado = bandaRecuperada.RetornarAlbumPeloNome(nomeDoAlbum);
+
+    // --- GUARDAR 3: Se o álbum NÃO existe, avisa e sai.
+    if (albumRecuperado == null)
+    {
+        Console.WriteLine($"\nO Álbum '{nomeDoAlbum}' não encontrado.");
+        Console.WriteLine("Digite uma tecla para voltar.");
+        Console.ReadKey();
+        ExibirOpcoesDeConsulta();
+        return; // Sai do método
+    }
+
+    Console.Clear();
+
+    //4. Exibir as Músicas do Álbum
+    albumRecuperado.ExibirMusicasDoAlbum();
+
+    Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
+    Console.ReadKey();
+    ExibirOpcoesDeConsulta();
+}
+
+#endregion
+
+// --------------------------------------------------------------------
+
+#region UTILITÁRIOS E DADOS INICIAIS
+// Ferramentas auxiliares e dados mock para testes
+
+// Metodo para Carregar Dados Iniciais (Mock)
+void CarregarDadosInicias()
+{
+    // --- The Beatles ---
+    Banda banda1 = new Banda("The Beatles");
+    // Adicionando notas de teste
+    sistemaBandas.AdicionarNota(banda1, 10);
+    sistemaBandas.AdicionarNota(banda1, 8);
+    sistemaBandas.AdicionarNota(banda1, 9);
+
+    Album album1 = new Album("Abbey Road");
+    Musica musica1 = new Musica(banda1, "Come Together", 259, true, new Genero("Rock"));
+    Musica musica2 = new Musica(banda1, "Something", 182, true, new Genero("Rock"));
+    album1.AdicionarMusica(musica1);
+    album1.AdicionarMusica(musica2);
+    banda1.AdicionarAlbum(album1);
+    sistemaBandas.RegistrarBanda(banda1);
+
+    // Adicionando notas de teste
+    sistemaBandas.AdicionarNota(banda1, 10);
+    sistemaBandas.AdicionarNota(banda1, 8);
+    sistemaBandas.AdicionarNota(banda1, 9);
+
+    // ------------------------------------------------------------
+
+    // --- Pink Floyd ---
+    Banda banda2 = new Banda("Pink Floyd");
+    
+    
+    Album album2 = new Album("The Dark Side of the Moon");
+    Musica musica3 = new Musica(banda2, "Time", 413, true, new Genero("Progressive Rock"));
+    Musica musica4 = new Musica(banda2, "Money", 382, true, new Genero("Progressive Rock"));
+    album2.AdicionarMusica(musica3);
+    album2.AdicionarMusica(musica4);
+    banda2.AdicionarAlbum(album2);
+    sistemaBandas.RegistrarBanda(banda2);
+
+    // Adicionando notas de teste
+    sistemaBandas.AdicionarNota(banda2, 9); // Nota depois
+    sistemaBandas.AdicionarNota(banda2, 10);
+
+    // ------------------------------------------------------------
+
+    // --- Oficina G3 ---
+    Banda banda3 = new Banda("Oficina G3");
+    
+
+    Album album3 = new Album("Depois da Guerra");
+    Musica musica5 = new Musica(banda3, "Depois da Guerra", 300, true, new Genero("Rock Cristão"));
+    Musica musica6 = new Musica(banda3, "Incondicional", 240, true, new Genero("Rock Cristão"));
+    album3.AdicionarMusica(musica5);
+    album3.AdicionarMusica(musica6);
+    banda3.AdicionarAlbum(album3);
+    sistemaBandas.RegistrarBanda(banda3);
+
+    // Adicionando notas de teste
+    sistemaBandas.AdicionarNota(banda3, 10); // Nota depois
+    sistemaBandas.AdicionarNota(banda3, 10); // Oficina merece 10 rsrs
+
+    // ------------------------------------------------------------
 }
 
 // Metodo Auxiliar para converter a duração em segundos inteiros
@@ -339,45 +561,40 @@ int ConverterTempoParaSegundos(string duracaoString)
         return 0;
     }
 }
-    
 
-// Chama o Método Principal
-ExibirOpcoesDoMenu();
-
-
-
-// // Criando um Obejto da Classe Banda
-// Banda oficinaG3 = new Banda("Oficina G3");
-// // Criando um novo objeto da classe Album
-// Album albumDoOficinaG3 = new Album("Depois da Guerra");
-
-// Genero Rock = new Genero("Rock");
-
-// // Criando Objetos da Classe Musica
-// Musica musica1 = new Musica(oficinaG3, "D.A.G", 62.4, true, Rock);
-
-// Musica musica2 = new Musica(oficinaG3, "Meus Própios Meis", 241.2, false, Rock);
+// Metodo para Exibir o Logo
+void ExibirLogo()
+{
+    Console.WriteLine(@"
+░██████╗░█████╗░██████╗░███████╗███████╗███╗░░██╗  ░██████╗░█████╗░██╗░░░██╗███╗░░██╗██████╗░
+██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝████╗░██║  ██╔════╝██╔══██╗██║░░░██║████╗░██║██╔══██╗
+╚█████╗░██║░░╚═╝██████╔╝█████╗░░█████╗░░██╔██╗██║  ╚█████╗░██║░░██║██║░░░██║██╔██╗██║██║░░██║
+░╚═══██╗██║░░██╗██╔══██╗██╔══╝░░██╔══╝░░██║╚████║  ░╚═══██╗██║░░██║██║░░░██║██║╚████║██║░░██║
+██████╔╝╚█████╔╝██║░░██║███████╗███████╗██║░╚███║  ██████╔╝╚█████╔╝╚██████╔╝██║░╚███║██████╔╝
+╚═════╝░░╚════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚══╝  ╚═════╝░░╚════╝░░╚═════╝░╚═╝░░╚══╝╚═════╝░");
+    Console.WriteLine(mensagemDeBoasVindas); 
+}
 
 
-// // Adicionando os Objetos da Classe Musica a uma lista de um Objeto Especifico da Classe Album
-//     // Utilizando um Método AdicionarMuscia para adicionar a Lista do Objeto Especifico da Classe Albim
-//         albumDoOficinaG3.AdicionarMusica(musica1);
-//         albumDoOficinaG3.AdicionarMusica(musica2);
+// Metodo para Exibir o Titulo da Opção
+void ExibirTituloDaOpção(string titulol)
+{
+    int quantidadeDeLetras = titulol.Length;
+    string asteristico = string.Empty.PadLeft(quantidadeDeLetras, '*');
+    Console.WriteLine(asteristico);
+    Console.WriteLine(titulol);
+    Console.WriteLine(asteristico + "\n");
+}
 
+#endregion
 
-
-// musica1.ExibirFichaTecnica();
-// musica2.ExibirFichaTecnica();
-
-//     // Exibindo as Musica Listada de um Objeto da Classe Album
-//         albumDoOficinaG3.ExibirMusicasDoAlbum();
+// Fim do arquivo Program.cs
 
 
 
-//     // Adicionando um Objeto da Classe Album em uma lista chamada Albums da Classe Banda
-//         oficinaG3.AdicionarAlbum(albumDoOficinaG3);
 
-//     // Exibindo a Lista Albums de um Obejto Da Classe Banda
-//         oficinaG3.ExibirDiscofrafia();
 
-// fim of Program.cs
+
+
+
+

@@ -141,4 +141,13 @@ public class BandasRegistradas
         return null!;
     }
     
+    // Método para Adicionar Nota Direto (usado para testes)
+    public void AdicionarNota(Banda banda, int nota)
+    {
+        if (VerificaBanda(banda))
+        {
+            _bandas[banda.NomeDaBanda].notas.Add(nota);
+        }
+    }
+
 }
