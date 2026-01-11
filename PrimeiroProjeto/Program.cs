@@ -7,6 +7,9 @@ BandasRegistradas sistemaBandas = new BandasRegistradas();
 // Carrega os dados de teste (Mock) antes de iniciar
 CarregarDadosInicias();
 
+// --- NOVO: Teste do Desafio Podcast
+// TestarDesafioPodcast();
+
 //Inicia o progama
 ExibirOpcoesDoMenu();
 
@@ -584,6 +587,47 @@ void ExibirTituloDaOpção(string titulol)
     Console.WriteLine(asteristico);
     Console.WriteLine(titulol);
     Console.WriteLine(asteristico + "\n");
+}
+
+// --- NOVO: Teste do Desafio Podcast
+// void TestarDesafioPodcast()
+{
+    Console.Clear();
+    Console.WriteLine("--- TESTE DO DESAFIO PODCAST ---\n");
+
+    // 1. Criando o Podcast (O construtor obriga passar Nome e Host)
+    Podcast podcastDoPaulo = new Podcast("Podcast Especial do Paulo", "Paulo Sérgio");
+
+    // 2. Criando o Episódio 1 (Usando inicializador de objeto)
+    Episodio ep1 = new Episodio
+    {
+        Numero = 1,
+        Titulo = "Técnicas de Facilitação",
+        Duracao = 45
+    };
+    // Adicionando convidados
+    ep1.AdicionarConvidado("Maria");
+    ep1.AdicionarConvidado("João");
+
+    // 3. Criando o Episódio 2
+    Episodio ep2 = new Episodio
+    {
+        Numero = 2,
+        Titulo = "Aprendendo C# e Orientação a Objetos",
+        Duracao = 65
+    };
+    ep2.AdicionarConvidado("Pedro");
+
+    // 4. Adicionando os episódios ao podcast
+    podcastDoPaulo.AdicionarEpisodio(ep1);
+    podcastDoPaulo.AdicionarEpisodio(ep2);
+
+    // 5. Exibindo os detalhes (Aqui testamos o método ExibirDetalhes e a propriedade Resumo)
+    podcastDoPaulo.ExibirDetalhes();
+
+    Console.WriteLine("\nTeste finalizado! Pressione qualquer tecla para ir ao sistema de bandas...");
+    Console.ReadKey();
+    Console.Clear();
 }
 
 #endregion
