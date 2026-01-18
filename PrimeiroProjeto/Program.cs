@@ -1,4 +1,7 @@
-﻿using PrimeiroProjeto;
+﻿
+using PrimeiroProjeto.Dominio;
+
+using PrimeiroProjeto.Infraestrutura;
 
 // --- CONFIGURAÇÃO INICIAL E VARIÁVEIS GLOBAIS ---
 string mensagemDeBoasVindas = "Boas vindas ao Screen Sound";

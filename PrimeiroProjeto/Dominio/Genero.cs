@@ -1,4 +1,4 @@
-﻿namespace PrimeiroProjeto;
+﻿namespace PrimeiroProjeto.Dominio;
 
 public class Genero
 {
@@ -11,7 +11,5 @@ public class Genero
     {
         TipoDeGenero = nome;
     }
-
-   
     // fim da classe Genero
 }

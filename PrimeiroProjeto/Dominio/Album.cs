@@ -1,4 +1,4 @@
-using PrimeiroProjeto;
+using PrimeiroProjeto.Dominio;
 
 public class Album
 {

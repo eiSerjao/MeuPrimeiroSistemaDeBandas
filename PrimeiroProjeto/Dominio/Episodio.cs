@@ -1,4 +1,4 @@
-﻿namespace PrimeiroProjeto;
+﻿namespace PrimeiroProjeto.Dominio;
 
 public class Episodio
 {

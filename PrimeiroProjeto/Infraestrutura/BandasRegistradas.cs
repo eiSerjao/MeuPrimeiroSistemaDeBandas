@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
-
-namespace PrimeiroProjeto;
+using PrimeiroProjeto.Dominio;
+namespace PrimeiroProjeto.Infraestrutura;
 
 public class BandasRegistradas
 {
