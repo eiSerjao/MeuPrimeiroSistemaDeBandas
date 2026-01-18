@@ -6,6 +6,7 @@ using PrimeiroProjeto.Infraestrutura;
 // --- CONFIGURAÇÃO INICIAL E VARIÁVEIS GLOBAIS ---
 string mensagemDeBoasVindas = "Boas vindas ao Screen Sound";
 BandasRegistradas sistemaBandas = new BandasRegistradas();
+PodcastsRegistrados sistemaPodcasts = new PodcastsRegistrados();
 
 // Carrega os dados de teste (Mock) antes de iniciar
 CarregarDadosInicias();
@@ -18,7 +19,7 @@ ExibirOpcoesDoMenu();
 
 // -----------------------------------------------------------------
 
-#region MENUS DE NAVEGAÇÃO
+#region MENUS DE 3NAVEGAÇÃO
 // Responsáveis por mostrar as opções e rotear (Switch Case)
 
 // Metodo Principal para Exibir as Opções do Menu
@@ -29,6 +30,7 @@ void ExibirOpcoesDoMenu()
     Console.WriteLine("\n--- MENU PRINCIPAL ---");
     Console.WriteLine("Digite 1 para Acessar a Central de Cadastros");
     Console.WriteLine("Digite 2 para Acessar a Central de Consultas");
+    Console.WriteLine("Digite 3 para Acessar a Central de Podcasts");
     Console.WriteLine("Digite 0 para Sair do Sistema");
 
     Console.Write("\nEscolha uma opção: ");
@@ -45,6 +47,10 @@ void ExibirOpcoesDoMenu()
             case 2:
                 Console.Clear();
                 ExibirOpcoesDeConsulta();
+                break;
+            case 3:
+                Console.Clear();
+                ExibirOpcoesDePodcast();
                 break;
             case 0:
                 Console.Clear();
@@ -476,6 +482,196 @@ void ExibirDetalhesDaBanda()
 
 // --------------------------------------------------------------------
 
+#region MÉTODOS DE PODCASTS
+
+void ExibirOpcoesDePodcast()
+{
+    Console.Clear();
+    ExibirTituloDaOpção("Central de Podcasts");
+    Console.WriteLine("Digite 1 para Registrar um Podcast");
+    Console.WriteLine("Digite 2 para Mostrar Podcasts Registrados");
+    Console.WriteLine("Digite 3 para Adicionar um Episódio");
+    Console.WriteLine("Digite 0 para Voltar ao Menu Principal");
+
+    Console.Write("\nEscolha uma opção: ");
+    string opcao = Console.ReadLine()!;
+
+    if (int.TryParse(opcao, out int opcaoEscolhida))
+    {
+        switch (opcaoEscolhida)
+        {
+            case 1:
+                RegistrarPodcast();
+                break;
+            case 2:
+                MostrarPodcastsRegistrados();
+                break;
+            case 3:
+                AdicionarEpisodio();
+                break;
+            case 0:
+                ExibirOpcoesDoMenu();
+                break;
+            default:
+                Console.WriteLine("Opção inválida. Tente novamente.");
+                Thread.Sleep(2000);
+                ExibirOpcoesDePodcast();
+                break;
+        }
+    }
+}
+
+// Metodo Registrar um Podcast
+    void RegistrarPodcast()
+    {
+        Console.Clear();
+        ExibirTituloDaOpção("Registro de Podcast");
+        Console.Write("Digite o nome do Podcast: ");
+        string nomeDoPodcast = Console.ReadLine()!;
+        Console.Write("Digite o nome do Host do Podcast: ");
+        string nomeDoHost = Console.ReadLine()!;
+
+        Podcast novoPodcast = new Podcast(nomeDoPodcast, nomeDoHost);
+        sistemaPodcasts.RegistrarPodcast(novoPodcast);
+
+        Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
+        Console.ReadKey();
+        ExibirOpcoesDePodcast();
+    }
+
+    void MostrarPodcastsRegistrados()
+    {
+        Console.Clear();
+        ExibirTituloDaOpção("Exibindo Podcasts Registrados");
+
+        // 1. Mostrar a lista de podcasts
+        sistemaPodcasts.ExibirPodcastsRegistrados();
+
+        // Opcional: Perguntar se quer ver detalhes de algum podcast
+        Console.WriteLine("\nDigite o nome do podcast para ver detalhes ou pressione Enter para voltar: ");
+        string nomeDoPodcast = Console.ReadLine()!;
+
+        // Se usuario só der ENTER, volta ao menu
+        if (string.IsNullOrEmpty(nomeDoPodcast))
+        {
+            ExibirOpcoesDePodcast();
+            return; // Sai do método
+        }
+
+        Podcast podcastRecuperado = sistemaPodcasts.RetornarPodcastPeloNome(nomeDoPodcast);
+
+        // 2. Verificar se o podcast existe
+        if (podcastRecuperado != null)
+        {
+            Console.WriteLine($"\nPodcast '{nomeDoPodcast}' encontrado.");
+
+            // 3. Opcional: perguntar se quer ver os episodio do podcast
+            Console.Write("Deseja ver os detalhes do podcast? (S/N): ");
+            string resposta = Console.ReadLine()!.Trim().ToUpper();
+
+            if (resposta == "S")
+            {
+                Console.Clear();
+                ExibirTituloDaOpção($"Detalhes do Podcast: {podcastRecuperado.Nome}");
+
+                // Listar os episódios do podcast
+                podcastRecuperado.ExibirDetalhes();
+
+            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
+            Console.ReadKey(); 
+            // --------------------------------------
+            }
+            else
+            {
+                Console.WriteLine("Ok! Voltando ao menu de podcasts.");
+                Thread.Sleep(2000);
+            }
+        }
+    else
+    {
+        Console.WriteLine($"\nPodcast '{nomeDoPodcast}' não encontrado.");
+        Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
+        Console.ReadKey();
+    }        
+        ExibirOpcoesDePodcast();
+    }
+
+    
+
+    void AdicionarEpisodio()
+    {
+        Console.Clear();
+        ExibirTituloDaOpção("Adicionar Episódio a um Podcast");
+
+        //1. Achar o Podcast
+        Console.Write("Digite o nome do Podcast onde deseja adicionar episódio: ");
+        string nomeDoPodcast = Console.ReadLine()!;
+
+        Podcast podcastRecuperado = sistemaPodcasts.RetornarPodcastPeloNome(nomeDoPodcast);
+
+        if (podcastRecuperado == null)
+        {
+            Console.WriteLine($"\nPodcast '{nomeDoPodcast}' não encontrado.");
+            Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
+            Console.ReadKey();
+            ExibirOpcoesDePodcast();
+            return; // Sai do método
+        }
+
+        // 2. Criar o Episódio
+        Console.WriteLine($"\n Adicionando episódio ao podcast '{nomeDoPodcast}'");
+
+        Console.Write("Digite o número do episódio: ");
+        int numeroDoEpisodio = int.Parse(Console.ReadLine()!);
+
+        Console.Write("Digite o título do episódio: ");
+        string tituloDoEpisodio = Console.ReadLine()!;
+
+        Console.Write("Digite a duração do episódio em minutos (formato mm:ss): ");
+        string duracaoString = Console.ReadLine()!;
+
+        int duracaoEmSegundos = ConverterTempoParaSegundos(duracaoString);
+
+
+        // Criando o objeto Episódio
+        Episodio novoEpisodio = new Episodio
+        {
+            Numero = numeroDoEpisodio,
+            Titulo = tituloDoEpisodio,
+            Duracao = duracaoEmSegundos / 60 // Convertendo segundos para minutos
+        };
+
+        // 3. Adicionar Convidados (opcional)
+        Console.Write("Deseja adicionar convidados? (S/N): ");
+        string resposta = Console.ReadLine()!.Trim().ToUpper();
+
+        if (resposta == "S")
+        {
+            Console.Clear();
+            Console.Write("Quantos convidados deseja adicionar?: ");
+            int quantidadeConvidados = int.Parse(Console.ReadLine()!);
+
+            for (int i = 0; i < quantidadeConvidados; i++)
+            {
+                Console.Write($"Digite o nome do convidado {i + 1}: ");
+                string nomeDoConvidado = Console.ReadLine()!;
+                novoEpisodio.AdicionarConvidado(nomeDoConvidado);
+            }
+        }
+
+        // 4. Salvar no Podcast
+        podcastRecuperado.AdicionarEpisodio(novoEpisodio);
+
+        Console.WriteLine($"\nEpisódio '{tituloDoEpisodio}' adicionado com sucesso ao podcast '{nomeDoPodcast}'!");
+        Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
+        Console.ReadKey();
+        ExibirOpcoesDePodcast();
+    }
+
+// --------------------------------------------------------------------
+
+// --- MÉTODOS AUXILIARES E DE TESTE ---
+
 #region UTILITÁRIOS E DADOS INICIAIS
 // Ferramentas auxiliares e dados mock para testes
 
@@ -539,6 +735,35 @@ void CarregarDadosInicias()
     sistemaBandas.AdicionarNota(banda3, 10); // Oficina merece 10 rsrs
 
     // ------------------------------------------------------------
+
+    // --- MOCK DE PODCASTS ---
+    
+    // 1. Podcast Especial do Paulo
+    Podcast podcastPaulo = new Podcast("Podcast do Paulo", "Paulo Sérgio");
+    
+    Episodio ep1 = new Episodio { Numero = 1, Titulo = "História do Rock", Duracao = 1200 };
+    ep1.AdicionarConvidado("João");
+    ep1.AdicionarConvidado("Maria");
+    
+    Episodio ep2 = new Episodio { Numero = 2, Titulo = "Arquitetura Limpa na Prática", Duracao = 2500 };
+    ep2.AdicionarConvidado("Tio Bob");
+
+    podcastPaulo.AdicionarEpisodio(ep1);
+    podcastPaulo.AdicionarEpisodio(ep2);
+    
+    sistemaPodcasts.RegistrarPodcast(podcastPaulo);
+
+
+    // 2. Podcast Hipsters Ponto Tech (Exemplo)
+    Podcast podcastHipsters = new Podcast("Hipsters Ponto Tech", "Alura");
+    
+    Episodio epHipster1 = new Episodio { Numero = 1, Titulo = "Inovação e Tech", Duracao = 1800 };
+    epHipster1.AdicionarConvidado("Paulo Silveira");
+    
+    podcastHipsters.AdicionarEpisodio(epHipster1);
+    
+    sistemaPodcasts.RegistrarPodcast(podcastHipsters);
+
 }
 
 // Metodo Auxiliar para converter a duração em segundos inteiros
@@ -592,56 +817,10 @@ void ExibirTituloDaOpção(string titulol)
     Console.WriteLine(asteristico + "\n");
 }
 
-// --- NOVO: Teste do Desafio Podcast
-// void TestarDesafioPodcast()
-{
-    Console.Clear();
-    Console.WriteLine("--- TESTE DO DESAFIO PODCAST ---\n");
 
-    // 1. Criando o Podcast (O construtor obriga passar Nome e Host)
-    Podcast podcastDoPaulo = new Podcast("Podcast Especial do Paulo", "Paulo Sérgio");
-
-    // 2. Criando o Episódio 1 (Usando inicializador de objeto)
-    Episodio ep1 = new Episodio
-    {
-        Numero = 1,
-        Titulo = "Técnicas de Facilitação",
-        Duracao = 45
-    };
-    // Adicionando convidados
-    ep1.AdicionarConvidado("Maria");
-    ep1.AdicionarConvidado("João");
-
-    // 3. Criando o Episódio 2
-    Episodio ep2 = new Episodio
-    {
-        Numero = 2,
-        Titulo = "Aprendendo C# e Orientação a Objetos",
-        Duracao = 65
-    };
-    ep2.AdicionarConvidado("Pedro");
-
-    // 4. Adicionando os episódios ao podcast
-    podcastDoPaulo.AdicionarEpisodio(ep1);
-    podcastDoPaulo.AdicionarEpisodio(ep2);
-
-    // 5. Exibindo os detalhes (Aqui testamos o método ExibirDetalhes e a propriedade Resumo)
-    podcastDoPaulo.ExibirDetalhes();
-
-    Console.WriteLine("\nTeste finalizado! Pressione qualquer tecla para ir ao sistema de bandas...");
-    Console.ReadKey();
-    Console.Clear();
-}
 
 #endregion
 
 // Fim do arquivo Program.cs
 
-
-
-
-
-
-
-
-
+#endregion
