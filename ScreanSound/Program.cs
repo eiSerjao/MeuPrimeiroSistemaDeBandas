@@ -406,7 +406,7 @@ void MostrarBandasRegistradas()
     ExibirTituloDaOpção("Exibindo todas as bandas registradas");
     sistemaBandas.ExibirBandasRegistradas();
     Console.Write("\nDigite uma tecla para voltar ao menu principal: ");
-    Console.ReadKey();
+    Console.ReadKey();                      
     Console.Clear();
     ExibirOpcoesDeConsulta();
 }
@@ -691,9 +691,9 @@ void CarregarDadosInicias()
     // --- The Beatles ---
     Banda banda1 = new Banda("The Beatles");
     // Adicionando notas de teste
-    sistemaBandas.AdicionarNota(banda1, 10);
-    sistemaBandas.AdicionarNota(banda1, 8);
-    sistemaBandas.AdicionarNota(banda1, 9);
+    banda1.AdicionarNota(banda1, 10);
+    banda1.AdicionarNota(banda1, 8);
+    banda1.AdicionarNota(banda1, 9);
 
     Album album1 = new Album("Abbey Road");
     Musica musica1 = new Musica(banda1, "Come Together", 259, true, new Genero("Rock"));
@@ -702,11 +702,6 @@ void CarregarDadosInicias()
     album1.AdicionarMusica(musica2);
     banda1.AdicionarAlbum(album1);
     sistemaBandas.RegistrarBanda(banda1);
-
-    // Adicionando notas de teste
-    sistemaBandas.AdicionarNota(banda1, 10);
-    sistemaBandas.AdicionarNota(banda1, 8);
-    sistemaBandas.AdicionarNota(banda1, 9);
 
     // ------------------------------------------------------------
 
@@ -723,8 +718,8 @@ void CarregarDadosInicias()
     sistemaBandas.RegistrarBanda(banda2);
 
     // Adicionando notas de teste
-    sistemaBandas.AdicionarNota(banda2, 9); // Nota depois
-    sistemaBandas.AdicionarNota(banda2, 10);
+    banda2.AdicionarNota(banda2, 9); // Nota depois
+    banda2.AdicionarNota(banda2, 10);
 
     // ------------------------------------------------------------
 
@@ -741,8 +736,8 @@ void CarregarDadosInicias()
     sistemaBandas.RegistrarBanda(banda3);
 
     // Adicionando notas de teste
-    sistemaBandas.AdicionarNota(banda3, 10); // Nota depois
-    sistemaBandas.AdicionarNota(banda3, 10); // Oficina merece 10 rsrs
+    banda3.AdicionarNota(banda3, 10); // Nota depois
+    banda3.AdicionarNota(banda3, 10); // Oficina merece 10 rsrs
 
     // ------------------------------------------------------------
 

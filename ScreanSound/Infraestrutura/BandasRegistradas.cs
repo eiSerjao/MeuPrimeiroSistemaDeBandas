@@ -5,8 +5,8 @@ namespace ScreanSound.Infraestrutura;
 
 public class BandasRegistradas
 {
-    // Dicionario para Armazenar as Bandas e suas notas
-    private Dictionary<string, (Banda banda, List<int> notas)> _bandas = new Dictionary<string, (Banda banda, List<int>)>();
+    // Dicionario para Armazenar as Bandas
+    private Dictionary<string, Banda> bandasRegistradas = new();
     
     // Dicionrario para Armazenar Generos Musicais no Sistema
     private Dictionary<string, Genero> _generos = new Dictionary<string, Genero>();
@@ -14,9 +14,9 @@ public class BandasRegistradas
     // Metodo para Registrar uma Banda
     public void RegistrarBanda(Banda banda)
     {
-        if (!_bandas.ContainsKey(banda.NomeDaBanda))
+        if (!bandasRegistradas.ContainsKey(banda.NomeDaBanda))
         {
-            _bandas.Add(banda.NomeDaBanda, (banda, new List<int>()));
+            bandasRegistradas.Add(banda.NomeDaBanda, banda);
         }
     }
     
@@ -47,7 +47,8 @@ public class BandasRegistradas
     // Metodo para Verificar se a Banda Existe no Dicionario
     public bool VerificaBanda(Banda banda)
     {
-        return _bandas.ContainsKey(banda.NomeDaBanda);
+        // estar com erro aqui
+        return bandasRegistradas.ContainsKey(banda.NomeDaBanda);
     }
 
     // Metodo para Adicionar uma Nota a Banda
@@ -57,7 +58,7 @@ public class BandasRegistradas
         if (VerificaBanda(banda))
         {
             // Se a banda existe, adiciona a tupla da banda na variável registro
-            var registro = _bandas[banda.NomeDaBanda];
+            var registro = bandasRegistradas[banda.NomeDaBanda];
 
             // O progama encerrar quando a nota for valida entre 0 e 10
             bool notaValida = false;
@@ -73,7 +74,7 @@ public class BandasRegistradas
                 if (nota >= 0 && nota <= 10)
                 {
                     // se a nota for valida, adiciona a nota na lista de notas da banda
-                    registro.notas.Add(nota);
+                    registro.AdicionarNota(banda, nota);
                     Console.WriteLine($"Nota {nota} registrada para a banda {banda.NomeDaBanda}");
 
                     // Atualiza a variável notaValida para sair do loop
@@ -92,23 +93,29 @@ public class BandasRegistradas
 
     }
 
-    // Métodos para Fazer a Média de Notas em Uma Banda
+    
     public void ExibirMédiaNotas(Banda banda)
     {
         if (VerificaBanda(banda))
         {
-            var registro = _bandas[banda.NomeDaBanda];
+            var registro = bandasRegistradas[banda.NomeDaBanda];
+            int quantidadeNotas = registro.ObterQuantidadeNotas();
 
-            if (registro.notas.Count > 0)
+            if (quantidadeNotas == 0)
             {
-                double media = registro.notas.Average();
-                Console.WriteLine($"A média de notas da banda {banda.NomeDaBanda} é: {media:F2}");
+                Console.WriteLine($"A banda {banda.NomeDaBanda} ainda não possui notas registradas.");
             }
             else
             {
-                Console.Clear();
-                Console.WriteLine($"A banda {banda.NomeDaBanda} não possui notas registradas.");
-                Thread.Sleep(2000);
+                // Calcula a média das notas
+                int somaNotas = 0;
+                for (int i = 0; i < quantidadeNotas; i++)
+                {
+                    somaNotas += registro.Notas[i];
+                }
+                double media = (double)somaNotas / quantidadeNotas;
+
+                Console.WriteLine($"A média das notas da banda {banda.NomeDaBanda} é: {media:F2}");
             }
         }
     }
@@ -116,20 +123,20 @@ public class BandasRegistradas
     // Metodo para Listar as Bandas Registradas
     public void ExibirBandasRegistradas()
     {
-        foreach (var banda in _bandas.Keys)
+        foreach (var banda in bandasRegistradas.Values)
         {
-            Console.WriteLine(banda);
+            Console.WriteLine($"- {banda.NomeDaBanda}");
         }
+        Console.WriteLine();
     }
     // Metodo para Retornar uma Banda pelo Nome
     public Banda RetornarBanda(string nomeDaBanda)
     {
-        if (_bandas.ContainsKey(nomeDaBanda))
+        if (bandasRegistradas.ContainsKey(nomeDaBanda))
         {
-            // O dicionário retorna a tupla (Banda, List<int>), então pegamos só a parte da Banda
-            return _bandas[nomeDaBanda].banda;
+            return bandasRegistradas[nomeDaBanda];
         }
-        return null!; // Retorna null se a banda não for encontrada
+        return null!;
     }
     
     // Método para Retornar um Genero pelo Nome
@@ -142,13 +149,6 @@ public class BandasRegistradas
         return null!;
     }
     
-    // Método para Adicionar Nota Direto (usado para testes)
-    public void AdicionarNota(Banda banda, int nota)
-    {
-        if (VerificaBanda(banda))
-        {
-            _bandas[banda.NomeDaBanda].notas.Add(nota);
-        }
-    }
+    
 
 }

@@ -2,7 +2,12 @@
 
 public class Banda
 {
+    // Lista de álbuns da banda (privada)
     private List<Album> albums { get; } = new List<Album>();
+    // Lista privada de notas da banda
+    private List<int> notas = new List<int>();
+    //Lista de notas da banda publica para acesso externo
+    public List<int> Notas => notas;
     
     public String NomeDaBanda { get; }
 
@@ -37,7 +42,16 @@ public class Banda
                 return album;
             }
         }
-        return null;
+        return null!;
     }
+
+
+    // Método para Adicionar Nota Direto (usado para testes)
+    public void AdicionarNota(Banda banda, int nota)
+    {
+        notas.Add(nota);
+    }
+
+    public int ObterQuantidadeNotas() => notas.Count;
 
 }
