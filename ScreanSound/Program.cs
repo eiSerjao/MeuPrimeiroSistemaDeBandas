@@ -3,22 +3,76 @@ using ScreanSound.Menu;
 using ScreanSound.Infraestrutura;
 using ScreanSound.Consulta;
 using ScreanSound.Cadastro;
+using ScreanSound.Utilitários;
 
 // --- CONFIGURAÇÃO INICIAL E VARIÁVEIS GLOBAIS ---
 string mensagemDeBoasVindas = "Boas vindas ao Screen Sound";
 BandasRegistradas sistemaBandas = new BandasRegistradas();
 PodcastsRegistrados sistemaPodcasts = new PodcastsRegistrados();
 
-// Carrega os dados de teste (Mock) antes de iniciar
+//carregar dados iniciais (mock)
 CarregarDadosInicias();
 
-// --- NOVO: Teste do Desafio Podcast
-// TestarDesafioPodcast();
-
-//Inicia o progama
 
 MenuExibirOpcoes menuExibirOpcoes = new MenuExibirOpcoes();
 menuExibirOpcoes.ExibirOpcoesDeConsulta();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // --------------------------------------------------------------------
@@ -113,58 +167,6 @@ void CarregarDadosInicias()
     sistemaPodcasts.RegistrarPodcast(podcastHipsters);
 
 }
-
-// Metodo Auxiliar para converter a duração em segundos inteiros
-int ConverterTempoParaSegundos(string duracaoString)
-{
-    {
-        // Caso 1: Usuario digita no formato mm:ss
-        if (duracaoString.Contains(":"))
-        {
-            string[] partes = duracaoString.Split(':'); // Quebrando a string em minutos e segundos
-
-            // Tenta converter as duas partes para inteiros
-            if (int.TryParse(partes[0], out int minutos) && int.TryParse(partes[1], out int segundos))
-            {
-                return minutos * 60 + segundos; // Retorna o total em segundos
-            }
-        }
-
-        // Caso 2: Se não existir ":", tenta converter direto 
-        else if (int.TryParse(duracaoString, out int minutosApenas))
-        {
-            return minutosApenas * 60; // Retorna o total em segundos
-        }
-
-        // se ele digitou "banana" ou algo inválido
-        return 0;
-    }
-}
-
-// Metodo para Exibir o Logo
-void ExibirLogo()
-{
-    Console.WriteLine(@"
-░██████╗░█████╗░██████╗░███████╗███████╗███╗░░██╗  ░██████╗░█████╗░██╗░░░██╗███╗░░██╗██████╗░
-██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝████╗░██║  ██╔════╝██╔══██╗██║░░░██║████╗░██║██╔══██╗
-╚█████╗░██║░░╚═╝██████╔╝█████╗░░█████╗░░██╔██╗██║  ╚█████╗░██║░░██║██║░░░██║██╔██╗██║██║░░██║
-░╚═══██╗██║░░██╗██╔══██╗██╔══╝░░██╔══╝░░██║╚████║  ░╚═══██╗██║░░██║██║░░░██║██║╚████║██║░░██║
-██████╔╝╚█████╔╝██║░░██║███████╗███████╗██║░╚███║  ██████╔╝╚█████╔╝╚██████╔╝██║░╚███║██████╔╝
-╚═════╝░░╚════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚══╝  ╚═════╝░░╚════╝░░╚═════╝░╚═╝░░╚══╝╚═════╝░");
-    Console.WriteLine(mensagemDeBoasVindas); 
-}
-
-
-// Metodo para Exibir o Titulo da Opção
-void ExibirTituloDaOpção(string titulol)
-{
-    int quantidadeDeLetras = titulol.Length;
-    string asteristico = string.Empty.PadLeft(quantidadeDeLetras, '*');
-    Console.WriteLine(asteristico);
-    Console.WriteLine(titulol);
-    Console.WriteLine(asteristico + "\n");
-}
-
 
 
 #endregion

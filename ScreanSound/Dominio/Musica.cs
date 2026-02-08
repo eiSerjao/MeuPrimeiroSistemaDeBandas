@@ -1,10 +1,10 @@
 ﻿namespace ScreanSound.Dominio;
-
 using ScreanSound.Dominio;
 using ScreanSound.Menu;
 using ScreanSound.Infraestrutura;
 using ScreanSound.Consulta;
 using ScreanSound.Cadastro;
+using ScreanSound.Utilitários;
 public class Musica
 {
     // Propriedades da classe Musica

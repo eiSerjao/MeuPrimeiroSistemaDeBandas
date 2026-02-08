@@ -5,10 +5,11 @@ using ScreanSound.Menu;
 using ScreanSound.Infraestrutura;
 using ScreanSound.Consulta;
 using ScreanSound.Cadastro;
+using ScreanSound.Utilitários;
 
 public class ConsultarPodcast
 {
-   void MostrarPodcastsRegistrados()
+    void MostrarPodcastsRegistrados()
     {
         Console.Clear();
         ExibirTituloDaOpção("Exibindo Podcasts Registrados");
@@ -46,9 +47,9 @@ public class ConsultarPodcast
                 // Listar os episódios do podcast
                 podcastRecuperado.ExibirDetalhes();
 
-            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
-            Console.ReadKey(); 
-            // --------------------------------------
+                Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
+                Console.ReadKey();
+                // --------------------------------------
             }
             else
             {
@@ -56,12 +57,12 @@ public class ConsultarPodcast
                 Thread.Sleep(2000);
             }
         }
-    else
-    {
-        Console.WriteLine($"\nPodcast '{nomeDoPodcast}' não encontrado.");
-        Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
-        Console.ReadKey();
-    }        
+        else
+        {
+            Console.WriteLine($"\nPodcast '{nomeDoPodcast}' não encontrado.");
+            Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
+            Console.ReadKey();
+        }
         ExibirOpcoesDePodcast();
-    }   
+    }
 }

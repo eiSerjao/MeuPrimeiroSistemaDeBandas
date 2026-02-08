@@ -5,6 +5,7 @@ using ScreanSound.Menu;
 using ScreanSound.Infraestrutura;
 using ScreanSound.Consulta;
 using ScreanSound.Cadastro;
+using ScreanSound.Utilitários;
 
 internal class MenuExibirOpcoes
 {
