@@ -1,5 +1,11 @@
 ﻿namespace ScreanSound.Dominio;
 
+using ScreanSound.Dominio;
+using ScreanSound.Menu;
+using ScreanSound.Infraestrutura;
+using ScreanSound.Consulta;
+using ScreanSound.Cadastro;
+
 public class Banda
 {
     // Lista de álbuns da banda (privada)

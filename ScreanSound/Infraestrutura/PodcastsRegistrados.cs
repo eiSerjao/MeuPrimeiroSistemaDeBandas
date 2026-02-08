@@ -1,7 +1,10 @@
 
 
 using ScreanSound.Dominio;
-
+using ScreanSound.Menu;
+using ScreanSound.Infraestrutura;
+using ScreanSound.Consulta;
+using ScreanSound.Cadastro;
 namespace ScreanSound.Infraestrutura;
 
 public class PodcastsRegistrados
