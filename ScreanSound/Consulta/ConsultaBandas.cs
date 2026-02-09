@@ -8,38 +8,58 @@ using ScreanSound.Cadastro;
 using ScreanSound.Utilitários;
 public class ConsultaBandas
 {
+    private BandasRegistradas sistemaBandas;
+    private MenuExibirOpcoes menuExibirOpcoes;
+
+    public ConsultaBandas(BandasRegistradas bandas, MenuExibirOpcoes menu)
+    {
+        sistemaBandas = bandas;
+        menuExibirOpcoes = menu;
+    }
+
     public void MostrarBandasRegistradas()
     {
         Console.Clear();
-        ExibirTituloDaOpção("Exibindo todas as bandas registradas");
+        ExibirTitulos.ExibirTituloDaOpção("Exibindo todas as bandas registradas");
         sistemaBandas.ExibirBandasRegistradas();
         Console.Write("\nDigite uma tecla para voltar ao menu principal: ");
         Console.ReadKey();
         Console.Clear();
-        ExibirOpcoesDeConsulta();
+        menuExibirOpcoes.ExibirOpcoesDeConsulta();
     }
 
     // Metodo para Exibir a Média da Banda 
     public void ExibirMediaDaBanda()
     {
         Console.Clear();
-        ExibirTituloDaOpção("Exibindo a média de uma banda");
+        ExibirTitulos.ExibirTituloDaOpção("Exibindo a média de uma banda");
         Console.Write("Digite o nome da banda que deseja ver a média: ");
         string nomeDaBanda = Console.ReadLine()!;
         Banda novaBanda = new Banda(nomeDaBanda);
+        
+        //Ver se a banda existe
+        if (sistemaBandas.RetornarBanda(nomeDaBanda) == null)
+        {
+            Console.WriteLine($"\nBanda '{nomeDaBanda}' não encontrada.");
+            Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
+            Console.ReadKey();
+            menuExibirOpcoes.ExibirOpcoesDeConsulta();
+            return; // Sai do método
+        }
+        
 
         sistemaBandas.ExibirMédiaNotas(novaBanda);
 
         Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
         Console.ReadKey();
-        ExibirOpcoesDeConsulta();
+        menuExibirOpcoes.ExibirOpcoesDeConsulta();
     }
 
     // Metodo para Exibir os Detalhes da Banda
     public void ExibirDetalhesDaBanda()
     {
         Console.Clear();
-        ExibirTituloDaOpção("Exibindo os detalhes de uma banda");
+        ExibirTitulos.ExibirTituloDaOpção("Exibindo os detalhes de uma banda");
         Console.Write("Digite o nome da banda que deseja ver os detalhes: ");
         string nomeDaBanda = Console.ReadLine()!;
 
@@ -49,10 +69,11 @@ public class ConsultaBandas
         // --- GUARDAR 1: Se a banda NÃO existe, avisa e sai.
         if (bandaRecuperada == null)
         {
+            Console.Clear();
             Console.WriteLine($"\nBanda '{nomeDaBanda}' não encontrada.");
             Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
             Console.ReadKey();
-            ExibirOpcoesDeConsulta();
+            menuExibirOpcoes.ExibirOpcoesDeConsulta();
             return; // Sai do método
         }
 
@@ -67,11 +88,13 @@ public class ConsultaBandas
         // --- GUADAR 2: Se a reposta for NÃO, sai.
         if (resposta != "S")
         {
-            ExibirOpcoesDeConsulta();
+            
+            menuExibirOpcoes.ExibirOpcoesDeConsulta();
             return; // Sai do método
         }
 
         //3. Perguntar qual álbum
+        Console.Clear();
         Console.Write("Digite o nome do álbum que deseja ver as músicas: ");
         string nomeDoAlbum = Console.ReadLine()!;
         Album albumRecuperado = bandaRecuperada.RetornarAlbumPeloNome(nomeDoAlbum);
@@ -79,10 +102,11 @@ public class ConsultaBandas
         // --- GUARDAR 3: Se o álbum NÃO existe, avisa e sai.
         if (albumRecuperado == null)
         {
+            Console.Clear();
             Console.WriteLine($"\nO Álbum '{nomeDoAlbum}' não encontrado.");
             Console.WriteLine("Digite uma tecla para voltar.");
             Console.ReadKey();
-            ExibirOpcoesDeConsulta();
+            menuExibirOpcoes.ExibirOpcoesDeConsulta();
             return; // Sai do método
         }
 
@@ -93,7 +117,7 @@ public class ConsultaBandas
 
         Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
         Console.ReadKey();
-        ExibirOpcoesDeConsulta();
+        menuExibirOpcoes.ExibirOpcoesDeConsulta();
     }
 
 }

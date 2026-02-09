@@ -1,5 +1,6 @@
 ﻿namespace ScreanSound.Utilitários;
 
+using ScreanSound;
 using ScreanSound.Dominio;
 using ScreanSound.Menu;
 using ScreanSound.Infraestrutura;
@@ -8,8 +9,7 @@ using ScreanSound.Cadastro;
 
 public class ConverterTempo
 {
-  int ConverterTempoParaSegundos(string duracaoString)
-{
+    public static int ConverterTempoParaSegundos(string duracaoString)
     {
         // Caso 1: Usuario digita no formato mm:ss
         if (duracaoString.Contains(":"))
@@ -32,5 +32,4 @@ public class ConverterTempo
         // se ele digitou "banana" ou algo inválido
         return 0;
     }
-}
 }

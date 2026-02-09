@@ -8,10 +8,19 @@ using ScreanSound.Cadastro;
 using ScreanSound.Utilitários;
 public class CadastroPodcasts
 {
-    void RegistrarPodcast()
+    private PodcastsRegistrados sistemaPodcasts;
+    private MenuExibirOpcoes menuExibirOpcoes;
+
+    public CadastroPodcasts(PodcastsRegistrados podcasts, MenuExibirOpcoes menu)
+    {
+        sistemaPodcasts = podcasts;
+        menuExibirOpcoes = menu;
+    }
+
+    public void RegistrarPodcast()
     {
         Console.Clear();
-        ExibirTituloDaOpção("Registro de Podcast");
+        ExibirTitulos.ExibirTituloDaOpção("Registro de Podcast");
         Console.Write("Digite o nome do Podcast: ");
         string nomeDoPodcast = Console.ReadLine()!;
         Console.Write("Digite o nome do Host do Podcast: ");
@@ -22,13 +31,13 @@ public class CadastroPodcasts
 
         Console.WriteLine("\nPressione qualquer tecla para voltar ao menu.");
         Console.ReadKey();
-        ExibirOpcoesDePodcast();
+        menuExibirOpcoes.ExibirOpcoesDePodcast();
     }
 
-    void AdicionarEpisodio()
+    public void AdicionarEpisodio()
     {
         Console.Clear();
-        ExibirTituloDaOpção("Adicionar Episódio a um Podcast");
+        ExibirTitulos.ExibirTituloDaOpção("Adicionar Episódio a um Podcast");
 
         //1. Achar o Podcast
         Console.Write("Digite o nome do Podcast onde deseja adicionar episódio: ");
@@ -41,7 +50,7 @@ public class CadastroPodcasts
             Console.WriteLine($"\nPodcast '{nomeDoPodcast}' não encontrado.");
             Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
             Console.ReadKey();
-            ExibirOpcoesDePodcast();
+            menuExibirOpcoes.ExibirOpcoesDePodcast();
             return; // Sai do método
         }
 
@@ -57,7 +66,7 @@ public class CadastroPodcasts
         Console.Write("Digite a duração do episódio em minutos (formato mm:ss): ");
         string duracaoString = Console.ReadLine()!;
 
-        int duracaoEmSegundos = ConverterTempoParaSegundos(duracaoString);
+        int duracaoEmSegundos = ConverterTempo.ConverterTempoParaSegundos(duracaoString);
 
 
         // Criando o objeto Episódio
@@ -92,6 +101,6 @@ public class CadastroPodcasts
         Console.WriteLine($"\nEpisódio '{tituloDoEpisodio}' adicionado com sucesso ao podcast '{nomeDoPodcast}'!");
         Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
         Console.ReadKey();
-        ExibirOpcoesDePodcast();
+        menuExibirOpcoes.ExibirOpcoesDePodcast();
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace ScreanSound.Menu;
 
+using ScreanSound;
 using ScreanSound.Dominio;
 using ScreanSound.Menu;
 using ScreanSound.Infraestrutura;
@@ -7,15 +8,23 @@ using ScreanSound.Consulta;
 using ScreanSound.Cadastro;
 using ScreanSound.Utilitários;
 
-internal class MenuExibirOpcoes
+public class MenuExibirOpcoes
 {
+  private BandasRegistradas sistemaBandas;
+  private PodcastsRegistrados sistemaPodcasts;
 
+  public MenuExibirOpcoes(BandasRegistradas bandas, PodcastsRegistrados podcasts)
+  {
+    sistemaBandas = bandas;
+    sistemaPodcasts = podcasts;
+  }
 
   // Metodo para Exibir as Opções de Consulta
   public void ExibirOpcoesDeConsulta()
   {
     Console.Clear();
-    ExibirTituloDaOpção("Central de Consultas");
+    ExibirTitulos.ExibirLogo();
+    ExibirTitulos.ExibirTituloDaOpção("Central de Consultas");
     Console.WriteLine("Digite 1 para Mostrar as Bandas Registradas");
     Console.WriteLine("Digite 2 para Exibir a Média de uma Banda");
     Console.WriteLine("Digite 3 para Ver Detalhes De Uma Banda (Discografia e Músicas)");
@@ -30,13 +39,16 @@ internal class MenuExibirOpcoes
       switch (opcaoEscolhida)
       {
         case 1:
-          MostrarBandasRegistradas();
+          ConsultaBandas consulta1 = new ConsultaBandas(sistemaBandas, this);
+          consulta1.MostrarBandasRegistradas();
           break;
         case 2:
-          ExibirMediaDaBanda();
+          ConsultaBandas consulta2 = new ConsultaBandas(sistemaBandas, this);
+          consulta2.ExibirMediaDaBanda();
           break;
         case 3:
-          ExibirDetalhesDaBanda();
+          ConsultaBandas consulta3 = new ConsultaBandas(sistemaBandas, this);
+          consulta3.ExibirDetalhesDaBanda();
           break;
         case 0:
           ExibirOpcoesDeCadastro();
@@ -63,7 +75,7 @@ internal class MenuExibirOpcoes
   public void ExibirOpcoesDeCadastro()
   {
     Console.Clear();
-    ExibirTituloDaOpção("Central de Cadastros");
+    ExibirTitulos.ExibirTituloDaOpção("Central de Cadastros");
     Console.WriteLine("Digite 1 para Registrar uma Banda");
     Console.WriteLine("Digite 2 para Registrar um Novo Álbum");
     Console.WriteLine("Digite 3 para Registrar uma Nova Música");
@@ -79,19 +91,24 @@ internal class MenuExibirOpcoes
       switch (opcaoEscolhida)
       {
         case 1:
-          RegistrarBanda();
+          CadastroBandas cadastro1 = new CadastroBandas(sistemaBandas, this);
+          cadastro1.RegistrarBanda();
           break;
         case 2:
-          RegistrarAlbum();
+          CadastroBandas cadastro2 = new CadastroBandas(sistemaBandas, this);
+          cadastro2.RegistrarAlbum();
           break;
         case 3:
-          RegistrarMusica();
+          CadastroBandas cadastro3 = new CadastroBandas(sistemaBandas, this);
+          cadastro3.RegistrarMusica();
           break;
         case 4:
-          RegistrarGenreroMusical();
+          CadastroBandas cadastro4 = new CadastroBandas(sistemaBandas, this);
+          cadastro4.RegistrarGenreroMusical();
           break;
         case 5:
-          AvaliarUmaBanda();
+          CadastroBandas cadastro5 = new CadastroBandas(sistemaBandas, this);
+          cadastro5.AvaliarUmaBanda();
           break;
         case 0:
           ExibirOpcoesDeConsulta();
@@ -117,7 +134,7 @@ internal class MenuExibirOpcoes
   public void ExibirOpcoesDePodcast()
   {
     Console.Clear();
-    ExibirTituloDaOpção("Central de Podcasts");
+    ExibirTitulos.ExibirTituloDaOpção("Central de Podcasts");
     Console.WriteLine("Digite 1 para Registrar um Podcast");
     Console.WriteLine("Digite 2 para Mostrar Podcasts Registrados");
     Console.WriteLine("Digite 3 para Adicionar um Episódio");
@@ -131,13 +148,16 @@ internal class MenuExibirOpcoes
       switch (opcaoEscolhida)
       {
         case 1:
-          RegistrarPodcast();
+          CadastroPodcasts podcast1 = new CadastroPodcasts(sistemaPodcasts, this);
+          podcast1.RegistrarPodcast();
           break;
         case 2:
-          MostrarPodcastsRegistrados();
+          ConsultarPodcast podcast2 = new ConsultarPodcast(sistemaPodcasts, this);
+          podcast2.MostrarPodcastsRegistrados();
           break;
         case 3:
-          AdicionarEpisodio();
+          CadastroPodcasts podcast3 = new CadastroPodcasts(sistemaPodcasts, this);
+          podcast3.AdicionarEpisodio();
           break;
         case 0:
           ExibirOpcoesDeConsulta();

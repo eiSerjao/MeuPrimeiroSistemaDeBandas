@@ -12,10 +12,10 @@ public class BandasRegistradas
 {
     // Dicionario para Armazenar as Bandas
     private Dictionary<string, Banda> bandasRegistradas = new();
-    
+
     // Dicionrario para Armazenar Generos Musicais no Sistema
     private Dictionary<string, Genero> _generos = new Dictionary<string, Genero>();
-    
+
     // Metodo para Registrar uma Banda
     public void RegistrarBanda(Banda banda)
     {
@@ -24,7 +24,7 @@ public class BandasRegistradas
             bandasRegistradas.Add(banda.NomeDaBanda, banda);
         }
     }
-    
+
     //Metodo para Registra um Genero
     public bool RegistrarGenero(Genero genero, string chave)
     {
@@ -42,7 +42,7 @@ public class BandasRegistradas
             return false;
         }
     }
-    
+
     // Verificar se o Genero estar Registrado no Sistema.
     public bool VerificarGenero(string chave)
     {
@@ -98,7 +98,7 @@ public class BandasRegistradas
 
     }
 
-    
+
     public void ExibirMédiaNotas(Banda banda)
     {
         if (VerificaBanda(banda))
@@ -143,7 +143,7 @@ public class BandasRegistradas
         }
         return null!;
     }
-    
+
     // Método para Retornar um Genero pelo Nome
     public Genero RetornarGenero(string nomeDoGenero)
     {
@@ -153,7 +153,7 @@ public class BandasRegistradas
         }
         return null!;
     }
-    
-    
+
+
 
 }

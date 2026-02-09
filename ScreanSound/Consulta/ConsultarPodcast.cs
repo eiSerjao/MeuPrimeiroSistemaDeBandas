@@ -9,10 +9,19 @@ using ScreanSound.Utilitários;
 
 public class ConsultarPodcast
 {
-    void MostrarPodcastsRegistrados()
+    private PodcastsRegistrados sistemaPodcasts;
+    private MenuExibirOpcoes menuExibirOpcoes;
+
+    public ConsultarPodcast(PodcastsRegistrados podcasts, MenuExibirOpcoes menu)
+    {
+        sistemaPodcasts = podcasts;
+        menuExibirOpcoes = menu;
+    }
+
+    public void MostrarPodcastsRegistrados()
     {
         Console.Clear();
-        ExibirTituloDaOpção("Exibindo Podcasts Registrados");
+        ExibirTitulos.ExibirTituloDaOpção("Exibindo Podcasts Registrados");
 
         // 1. Mostrar a lista de podcasts
         sistemaPodcasts.ExibirPodcastsRegistrados();
@@ -24,7 +33,7 @@ public class ConsultarPodcast
         // Se usuario só der ENTER, volta ao menu
         if (string.IsNullOrEmpty(nomeDoPodcast))
         {
-            ExibirOpcoesDePodcast();
+            menuExibirOpcoes.ExibirOpcoesDePodcast();
             return; // Sai do método
         }
 
@@ -42,7 +51,7 @@ public class ConsultarPodcast
             if (resposta == "S")
             {
                 Console.Clear();
-                ExibirTituloDaOpção($"Detalhes do Podcast: {podcastRecuperado.Nome}");
+                ExibirTitulos.ExibirTituloDaOpção($"Detalhes do Podcast: {podcastRecuperado.Nome}");
 
                 // Listar os episódios do podcast
                 podcastRecuperado.ExibirDetalhes();
@@ -63,6 +72,6 @@ public class ConsultarPodcast
             Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
             Console.ReadKey();
         }
-        ExibirOpcoesDePodcast();
+        menuExibirOpcoes.ExibirOpcoesDePodcast();
     }
 }
